@@ -12,117 +12,59 @@
       background-size: cover;
       color: #333;
     }
-
     header {
       background: rgba(0, 100, 0, 0.85);
       color: white;
       text-align: center;
       padding: 40px 20px;
     }
-    header h1 {
-      margin: 0;
-      font-size: 40px;
-    }
-    header p {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #f1f1f1;
-    }
+    header h1 { margin: 0; font-size: 40px; }
+    header p { margin-top: 10px; font-size: 18px; }
+
+    section { padding: 40px 20px; }
+    .about { background: #fff; border-radius: 15px; padding: 30px; max-width: 900px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+    .about h2 { color: #2d572c; margin-bottom: 15px; }
 
     .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      padding: 40px 20px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;
     }
     .product {
-      background: white;
-      border-radius: 15px;
-      width: 320px;
-      padding: 20px;
-      text-align: center;
+      background: white; border-radius: 15px; width: 320px; padding: 20px; text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-    .product img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-    .product h3 {
-      color: #2d572c;
-      margin: 15px 0 10px;
-    }
-    .product p {
-      color: #555;
-      font-size: 15px;
-    }
+    .product img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+    .product h3 { color: #2d572c; margin: 15px 0 10px; }
 
-    /* Step 1 Form (Quantity & Price) */
-    .step1 select {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
+    .product select, .product button {
+      width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc;
     }
-    .step1 button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 12px;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 15px;
+    .product button {
+      background: #4CAF50; color: white; border: none; cursor: pointer;
     }
-    .step1 button:hover {
-      background: #45a049;
-    }
+    .product button:hover { background: #45a049; }
 
-    /* Step 2 Form (Address Details) */
-    .step2 {
-      display: none;
-      margin-top: 15px;
-      text-align: left;
+    /* Cart Sidebar */
+    #cart {
+      position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background: #fff;
+      box-shadow: -3px 0 8px rgba(0,0,0,0.2); transition: right 0.3s; padding: 20px; overflow-y: auto;
     }
-    .step2 input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    .step2 button {
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 12px;
-      width: 100%;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 15px;
-    }
-    .step2 button:hover {
-      background: #0069d9;
-    }
+    #cart h2 { margin-top: 0; }
+    .cart-item { border-bottom: 1px solid #ddd; padding: 10px 0; }
+    #cart button { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
+    #checkoutBtn { background: #007bff; color: white; }
+    #closeCart { background: #f44336; color: white; margin-top: 10px; }
 
-    footer {
-      background: #2c2c2c;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      margin-top: 50px;
-    }
-    footer p {
-      margin: 8px 0;
-      font-size: 14px;
-    }
+    /* Checkout Form */
+    #checkoutForm { display: none; max-width: 500px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+    #checkoutForm input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
+    #checkoutForm button { width: 100%; padding: 12px; margin-top: 12px; border: none; border-radius: 6px; cursor: pointer; }
+
+    .codBtn { background: #4CAF50; color: white; }
+    .onlineBtn { background: #007bff; color: white; }
+
+    #qrCode { display: none; text-align: center; margin-top: 20px; }
+
+    footer { background: #2c2c2c; color: white; text-align: center; padding: 30px 20px; margin-top: 50px; }
   </style>
 </head>
 <body>
@@ -130,67 +72,66 @@
   <header>
     <h1>Homemade Products</h1>
     <p>Fresh, tasty, and made with love for your family</p>
+    <button onclick="toggleCart()" style="margin-top:10px;padding:10px 20px;border:none;border-radius:6px;background:#ffc107;cursor:pointer;">🛒 View Cart</button>
   </header>
 
+  <!-- About Us -->
+  <section class="about">
+    <h2>About Us</h2>
+    <p>We bring you homemade snacks like Pippalu and Murukulu, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p>
+  </section>
+
+  <!-- Products -->
   <section class="products">
-    <!-- Product 1 -->
     <div class="product">
       <img src="pippalu.jpg" alt="Pippalu">
       <h3>Pippalu</h3>
-      <p>Delicious homemade Pippalu with authentic taste.</p>
-
-      <!-- Step 1 -->
-      <form class="step1" onsubmit="showAddressForm(event, this)">
-        <select name="quantity" required>
-          <option value="">Select Quantity</option>
-          <option value="100g - ₹50">100g - ₹50</option>
-          <option value="200g - ₹90">200g - ₹90</option>
-          <option value="500g - ₹200">500g - ₹200</option>
-        </select>
-        <button type="submit">Place Order</button>
-      </form>
-
-      <!-- Step 2 (hidden initially) -->
-      <form class="step2" onsubmit="finalOrder(event, 'Pippalu')">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="text" name="phone" placeholder="Phone" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="pincode" placeholder="Pincode" required>
-        <input type="text" name="mandal" placeholder="Mandal" required>
-        <input type="text" name="district" placeholder="District" required>
-        <input type="text" name="state" placeholder="State" required>
-        <button type="submit">Confirm Order</button>
-      </form>
+      <select>
+        <option value="">Select Quantity</option>
+        <option value="100g - ₹50">100g - ₹50</option>
+        <option value="200g - ₹90">200g - ₹90</option>
+        <option value="500g - ₹200">500g - ₹200</option>
+      </select>
+      <button onclick="addToCart('Pippalu', this)">Add to Cart</button>
     </div>
-
-    <!-- Product 2 -->
     <div class="product">
       <img src="murukulu.jpg" alt="Murukulu">
       <h3>Murukulu</h3>
-      <p>Crispy homemade Murukulu made with love.</p>
+      <select>
+        <option value="">Select Quantity</option>
+        <option value="100g - ₹60">100g - ₹60</option>
+        <option value="200g - ₹110">200g - ₹110</option>
+        <option value="500g - ₹250">500g - ₹250</option>
+      </select>
+      <button onclick="addToCart('Murukulu', this)">Add to Cart</button>
+    </div>
+  </section>
 
-      <!-- Step 1 -->
-      <form class="step1" onsubmit="showAddressForm(event, this)">
-        <select name="quantity" required>
-          <option value="">Select Quantity</option>
-          <option value="100g - ₹60">100g - ₹60</option>
-          <option value="200g - ₹110">200g - ₹110</option>
-          <option value="500g - ₹250">500g - ₹250</option>
-        </select>
-        <button type="submit">Place Order</button>
-      </form>
+  <!-- Cart Sidebar -->
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <p><strong>Total: ₹<span id="total">0</span></strong></p>
+    <button id="checkoutBtn" onclick="showCheckout()">Proceed to Checkout</button>
+    <button id="closeCart" onclick="toggleCart()">Close</button>
+  </div>
 
-      <!-- Step 2 (hidden initially) -->
-      <form class="step2" onsubmit="finalOrder(event, 'Murukulu')">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="text" name="phone" placeholder="Phone" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="pincode" placeholder="Pincode" required>
-        <input type="text" name="mandal" placeholder="Mandal" required>
-        <input type="text" name="district" placeholder="District" required>
-        <input type="text" name="state" placeholder="State" required>
-        <button type="submit">Confirm Order</button>
-      </form>
+  <!-- Checkout Form -->
+  <section id="checkoutForm">
+    <h2>Delivery Details</h2>
+    <input type="text" placeholder="Full Name" required>
+    <input type="text" placeholder="Phone" required>
+    <input type="email" placeholder="Email" required>
+    <input type="text" placeholder="Pincode" required>
+    <input type="text" placeholder="Mandal" required>
+    <input type="text" placeholder="District" required>
+    <input type="text" placeholder="State" required>
+    <button class="codBtn" onclick="placeOrder('COD')">Cash on Delivery</button>
+    <button class="onlineBtn" onclick="placeOrder('Online')">Pay Online</button>
+
+    <div id="qrCode">
+      <h3>Scan to Pay</h3>
+      <img src="qrcode.png" alt="QR Code" width="200">
     </div>
   </section>
 
@@ -200,31 +141,56 @@
   </footer>
 
   <script>
-    function showAddressForm(event, form) {
-      event.preventDefault();
-      form.style.display = "none"; // hide step 1
-      form.nextElementSibling.style.display = "block"; // show step 2
+    let cart = [];
+
+    function toggleCart() {
+      let cartBox = document.getElementById('cart');
+      cartBox.style.right = (cartBox.style.right === "0px") ? "-400px" : "0px";
     }
 
-    function finalOrder(event, productName) {
-      event.preventDefault();
-      const form = event.target;
-      const step1Form = form.previousElementSibling;
-      const quantity = step1Form.querySelector("select").value;
-      const data = new FormData(form);
+    function addToCart(product, btn) {
+      let quantity = btn.previousElementSibling.value;
+      if (!quantity) { alert("Please select quantity"); return; }
 
-      let details = `✅ Order for ${productName}\nQuantity: ${quantity}\n`;
-      data.forEach((value, key) => {
-        details += `${key}: ${value}\n`;
+      let price = parseInt(quantity.split("₹")[1]);
+      cart.push({ product, quantity, price });
+
+      updateCart();
+      alert(product + " added to cart!");
+    }
+
+    function updateCart() {
+      let cartItems = document.getElementById("cartItems");
+      let total = 0;
+      cartItems.innerHTML = "";
+      cart.forEach((item, index) => {
+        total += item.price;
+        cartItems.innerHTML += `<div class="cart-item">
+          ${item.product} - ${item.quantity}
+          <button onclick="removeItem(${index})" style="float:right;">❌</button>
+        </div>`;
       });
+      document.getElementById("total").textContent = total;
+    }
 
-      alert(details);
-      step1Form.reset();
-      form.reset();
-      form.style.display = "none";
-      step1Form.style.display = "block"; // reset flow
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function showCheckout() {
+      toggleCart();
+      document.getElementById("checkoutForm").style.display = "block";
+      window.scrollTo({ top: document.getElementById("checkoutForm").offsetTop, behavior: "smooth" });
+    }
+
+    function placeOrder(type) {
+      if (type === "COD") {
+        alert("✅ Order placed with Cash on Delivery!");
+      } else {
+        document.getElementById("qrCode").style.display = "block";
+      }
     }
   </script>
-
 </body>
 </html>
