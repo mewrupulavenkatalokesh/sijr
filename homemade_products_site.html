@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homemade Snacks – Pippalu & Murukulu</title>
+  <meta name="description" content="Fresh homemade Pippalu and Murukulu. Order via UPI scan or WhatsApp." />
+  <style>
+    :root {
+      --brand:#2f855a; /* change brand color here */
+      --brand-2:#276749;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --bg:#f8fafc;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Calibri,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    header{position:sticky;top:0;z-index:20;background:var(--brand);color:#fff;padding:12px 16px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+    nav a{color:#fff;text-decoration:none;margin:0 10px;font-weight:600}
+    nav a:hover{text-decoration:underline}
+    .hero{background:linear-gradient(180deg, var(--brand), var(--brand-2));color:#fff;padding:40px 0}
+    .hero h1{margin:0 0 8px;font-size:34px}
+    .hero p{margin:0;color:#e6fffa}
+    .grid{display:grid;gap:18px}
+    @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 8px 24px rgba(2,6,23,.06);overflow:hidden}
+    .card img{width:100%;height:240px;object-fit:cover}
+    .card .pad{padding:16px}
+    h2{color:var(--brand-2);margin:0 0 8px}
+    .price{font-weight:700}
+    .muted{color:var(--muted)}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:700;border:2px solid var(--brand);color:#fff;background:var(--brand)}
+    .btn.alt{background:#fff;color:var(--brand)}
+    .section{padding:28px 0}
+    .paybox{display:grid;gap:16px}
+    @media(min-width:720px){.paybox{grid-template-columns:260px 1fr;align-items:center}}
+    .qr{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(2,6,23,.06);padding:12px;text-align:center}
+    .qr img{max-width:220px;width:100%;height:auto}
+    footer{margin-top:28px;background:#0f172a;color:#cbd5e1;padding:20px 0}
+    footer a{color:#fff}
+    .kicker{font-size:12px;color:#64748b;text-align:center;margin-top:6px}
+    /* ======= EDIT THESE QUICK SETTINGS ======= */
+    /* 1) Replace phone, email, UPI ID below in the HTML (search for EDIT-ME). */
+    /* 2) Put your images in /images with exact names: pippalu.jpg, murukulu.jpg, upi-qr.png */
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div style="font-weight:800;letter-spacing:.3px">Homemade Snacks</div>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#payment">Scan & Pay</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Fresh Homemade Pippalu & Murukulu</h1>
+      <p>Small-batch, crispy, made with love. Order via UPI scan or WhatsApp.</p>
+      <div class="btns" style="margin-top:14px">
+        <a class="btn" href="#products">See Products</a>
+        <a class="btn alt" href="#payment">Scan & Pay</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section id="products" class="section">
+      <h2>Products</h2>
+      <p class="muted" style="margin-top:4px">All prices are inclusive of taxes. Free delivery for bulk orders near Hyderabad.</p>
+      <div class="grid" style="margin-top:14px">
+        <!-- PIPPALU CARD -->
+        <article class="card" id="pippalu">
+          <img src="images/pippalu.jpg" alt="Pippalu (homemade spicy snack)" />
+          <div class="pad">
+            <h3 style="margin:0 0 6px">Pippalu</h3>
+            <div class="price">₹150 / pack</div>
+            <p class="muted">Crispy, spicy snack. Perfect with tea time.</p>
+            <div class="btns">
+              <a class="btn" aria-label="Order Pippalu on WhatsApp" href="https://wa.me/919999999999?text=Hi%2C%20I%20want%20to%20order%20Pippalu%20-%201%20pack" target="_blank" rel="noopener">Order on WhatsApp</a>
+              <a class="btn alt" href="#payment">Pay via UPI</a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- MURUKULU CARD -->
+        <article class="card" id="murukulu">
+          <img src="images/murukulu.jpg" alt="Murukulu (traditional crunchy snack)" />
+          <div class="pad">
+            <h3 style="margin:0 0 6px">Murukulu</h3>
+            <div class="price">₹200 / pack</div>
+            <p class="muted">Traditional crunchy snack. Festive favourite.</p>
+            <div class="btns">
+              <a class="btn" aria-label="Order Murukulu on WhatsApp" href="https://wa.me/919999999999?text=Hi%2C%20I%20want%20to%20order%20Murukulu%20-%201%20pack" target="_blank" rel="noopener">Order on WhatsApp</a>
+              <a class="btn alt" href="#payment">Pay via UPI</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="payment" class="section">
+      <h2>Scan & Pay (UPI)</h2>
+      <div class="paybox">
+        <div class="qr">
+          <img src="images/upi-qr.png" alt="UPI QR Code" />
+          <div class="kicker">Scan with GPay / PhonePe / Paytm</div>
+        </div>
+        <div>
+          <p><strong>UPI ID:</strong> <span id="upi-id">yourname@okicici</span> <!-- EDIT-ME --> </p>
+          <ol>
+            <li>Open your UPI app and scan the QR.</li>
+            <li>Pay the amount based on your order.</li>
+            <li>Share the payment screenshot on WhatsApp with your name & address.</li>
+          </ol>
+          <div class="btns">
+            <a class="btn" href="https://wa.me/919999999999?text=Hi%2C%20I%20paid%20via%20UPI.%20Order%20details%3A" target="_blank" rel="noopener">Share on WhatsApp</a>
+            <a class="btn alt" href="tel:+919999999999">Call Now</a>
+          </div>
+          <p class="muted" style="margin-top:10px">Delivery available in and around Hyderabad. Shipping charges may apply for other locations.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="card">
+        <div class="pad">
+          <p><strong>Phone:</strong> <a href="tel:+919999999999">+91 99999 99999</a> <!-- EDIT-ME --></p>
+          <p><strong>Email:</strong> <a href="mailto:hello@example.com">hello@example.com</a> <!-- EDIT-ME --></p>
+          <p><strong>Address:</strong> Hyderabad, Telangana, India <!-- EDIT-ME --></p>
+          <p class="muted">Business Hours: 9:00 AM – 7:00 PM</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> Homemade Snacks</div>
+      <div><a href="#contact">Questions? Contact us</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Auto year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // NOTE: To fully customize, replace all numbers/emails marked EDIT-ME.
+  </script>
+</body>
+</html>
