@@ -53,6 +53,29 @@
     .qr img {
       width: 150px;
     }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    input {
+      width: 80px;
+      text-align: center;
+    }
+    button {
+      padding: 5px 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -61,26 +84,93 @@
     Homemade Products
   </header>
 
-  <section class="products">
-    <div class="product">
-      <img src="pippalu.jpg" alt="Pippalu">
-      <h3>Pippalu</h3>
-      <p>Delicious homemade Pippalu with authentic taste.</p>
-    </div>
-    <div class="product">
-      <img src="murukulu.jpg" alt="Murukulu">
-      <h3>Murukulu</h3>
-      <p>Crispy homemade Murukulu made with love.</p>
-    </div>
+  <!-- Editable Table -->
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Weight</th>
+        <th>Price (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be added by JavaScript -->
+    </tbody>
+  </table>
+
+  <div style="text-align:center;">
+    <button onclick="updateProducts()">Update Products</button>
+  </div>
+
+  <section class="products" id="products">
+    <!-- Product cards will be generated here -->
   </section>
 
   <footer>
-    <p>Contact us: +91-7997898521 |villagetradition55@gmail,com | Alajangi,Bobbili,vizianagaram , India</p>
+    <p>Contact us: +91-9876543210 | myemail@gmail.com | Mumbai, India</p>
     <div class="qr">
       <p>Scan to Pay:</p>
       <img src="upi-qr.png.jpg" alt="UPI QR Code">
     </div>
   </footer>
+
+  <script>
+    // Initial product data
+    let products = [
+      { name: "Pippalu", description: "Delicious homemade Pippalu with authentic taste.", image: "pippalu.jpg", weight: "100 grams", price: 50 },
+      { name: "Murukulu", description: "Crispy homemade Murukulu made with love.", image: "murukulu.jpg", weight: "100 grams", price: 60 }
+    ];
+
+    const productsContainer = document.getElementById("products");
+    const tableBody = document.querySelector("#productTable tbody");
+
+    // Function to render product cards
+    function renderProducts() {
+      productsContainer.innerHTML = "";
+      products.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p>Weight: ${product.weight}</p>
+          <p>Price: ₹${product.price}</p>
+        `;
+        productsContainer.appendChild(productDiv);
+      });
+    }
+
+    // Function to render editable table
+    function renderTable() {
+      tableBody.innerHTML = "";
+      products.forEach((product, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${product.name}</td>
+          <td><input type="text" value="${product.weight}" data-index="${index}" data-field="weight"></td>
+          <td><input type="number" value="${product.price}" data-index="${index}" data-field="price"></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Function to update product data from table
+    function updateProducts() {
+      const inputs = tableBody.querySelectorAll("input");
+      inputs.forEach(input => {
+        const index = input.dataset.index;
+        const field = input.dataset.field;
+        products[index][field] = input.value;
+      });
+      renderProducts();
+      alert("Products updated successfully!");
+    }
+
+    // Initial render
+    renderProducts();
+    renderTable();
+  </script>
 
 </body>
 </html>
