@@ -1,196 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homemade Products</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url("background.jpg") no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
-    }
-    header {
-      background: rgba(0, 100, 0, 0.85);
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    header h1 { margin: 0; font-size: 40px; }
-    header p { margin-top: 10px; font-size: 18px; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Homemade Products — Shop</title>
+<style>
+  :root{
+    --green:#2e7d32;
+    --accent:#4CAF50;
+    --muted:#666;
+    --card-bg:#fff;
+  }
+  body{
+    margin:0;font-family:system-ui,Arial,sans-serif;
+    background: url("background.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color:#222;
+  }
+  header{
+    background: rgba(18,77,30,0.92);
+    color:#fff;padding:28px 20px;text-align:center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    position:sticky;top:0;z-index:50;
+  }
+  header h1{margin:0;font-size:28px;letter-spacing:0.5px}
+  header p{margin:6px 0 0;opacity:0.95}
+  .top-actions{position:absolute; right:18px; top:18px}
+  .cart-btn{
+    background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;
+  }
 
-    section { padding: 40px 20px; }
-    .about { background: #fff; border-radius: 15px; padding: 30px; max-width: 900px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
-    .about h2 { color: #2d572c; margin-bottom: 15px; }
+  main{max-width:1200px;margin:34px auto;padding:0 18px;}
 
-    .products {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;
-    }
-    .product {
-      background: white; border-radius: 15px; width: 320px; padding: 20px; text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .product img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
-    .product h3 { color: #2d572c; margin: 15px 0 10px; }
+  .hero{
+    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+    border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);
+  }
+  .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
+  .hero p{margin:0;color:var(--muted)}
 
-    .product select, .product button {
-      width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc;
-    }
-    .product button {
-      background: #4CAF50; color: white; border: none; cursor: pointer;
-    }
-    .product button:hover { background: #45a049; }
+  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+  .about h3{color:var(--green);margin:0 0 10px}
 
-    /* Cart Sidebar */
-    #cart {
-      position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background: #fff;
-      box-shadow: -3px 0 8px rgba(0,0,0,0.2); transition: right 0.3s; padding: 20px; overflow-y: auto;
-    }
-    #cart h2 { margin-top: 0; }
-    .cart-item { border-bottom: 1px solid #ddd; padding: 10px 0; }
-    #cart button { width: 100%; margin-top: 15px; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
-    #checkoutBtn { background: #007bff; color: white; }
-    #closeCart { background: #f44336; color: white; margin-top: 10px; }
+  .products {display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
+  .card{
+    width:320px;background:var(--card-bg);border-radius:12px;padding:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;
+  }
+  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
+  .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+  .card h4{margin:12px 0 6px;color:var(--green)}
+  .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
+  .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+  .card .add{
+    margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;
+    cursor:pointer;font-weight:600;width:100%;
+  }
 
-    /* Checkout Form */
-    #checkoutForm { display: none; max-width: 500px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
-    #checkoutForm input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
-    #checkoutForm button { width: 100%; padding: 12px; margin-top: 12px; border: none; border-radius: 6px; cursor: pointer; }
+  /* Cart sidebar */
+  #cart{
+    position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);
+    transition:right .28s;z-index:90;padding:18px 16px;overflow:auto;
+  }
+  #cart.open{right:0}
+  #cart h3{margin:6px 0 14px;color:var(--green)}
+  .cart-list .item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
+  .cart-list .item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+  .cart-list .info{flex:1;text-align:left}
+  .cart-list .info strong{display:block}
+  .cart-list .qty{width:64px}
+  .cart-bottom{margin-top:14px}
+  .cart-bottom .total{font-weight:700;font-size:18px;margin-bottom:10px}
+  .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
+  .checkout-btn{background:#1976d2;color:#fff}
+  .close-cart{background:#f44336;color:#fff;margin-top:8px}
 
-    .codBtn { background: #4CAF50; color: white; }
-    .onlineBtn { background: #007bff; color: white; }
+  /* checkout area (hidden till proceed) */
+  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  #checkoutArea h3{color:var(--green)}
+  #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
+  .payment-row{display:flex;gap:10px;margin-top:12px}
+  .payment-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer}
+  .cod{background:#4caf50;color:white}
+  .online{background:#1976d2;color:white}
+  #qrWrap{display:none;text-align:center;margin-top:12px}
+  #qrWrap img{width:200px;border-radius:8px}
 
-    #qrCode { display: none; text-align: center; margin-top: 20px; }
+  /* toast */
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
 
-    footer { background: #2c2c2c; color: white; text-align: center; padding: 30px 20px; margin-top: 50px; }
-  </style>
+  @media(max-width:760px){
+    .products{flex-direction:column;align-items:center}
+    #cart{width:100%;right:-100%}
+  }
+</style>
 </head>
 <body>
 
-  <header>
+<header>
+  <div style="position:relative;">
+    <div class="top-actions">
+      <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
+    </div>
     <h1>Homemade Products</h1>
     <p>Fresh, tasty, and made with love for your family</p>
-    <button onclick="toggleCart()" style="margin-top:10px;padding:10px 20px;border:none;border-radius:6px;background:#ffc107;cursor:pointer;">🛒 View Cart</button>
-  </header>
+  </div>
+</header>
 
-  <!-- About Us -->
+<main>
+  <div class="hero">
+    <h2>Natural Homemade Delights</h2>
+    <p>Traditional snacks, prepared in small batches with authentic ingredients.</p>
+  </div>
+
   <section class="about">
-    <h2>About Us</h2>
+    <h3>About Us</h3>
     <p>We bring you homemade snacks like Pippalu and Murukulu, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p>
   </section>
 
-  <!-- Products -->
-  <section class="products">
-    <div class="product">
-      <img src="pippalu.jpg" alt="Pippalu">
-      <h3>Pippalu</h3>
-      <select>
-        <option value="">Select Quantity</option>
-        <option value="100g - ₹50">100g - ₹50</option>
-        <option value="200g - ₹90">200g - ₹90</option>
-        <option value="500g - ₹200">500g - ₹200</option>
-      </select>
-      <button onclick="addToCart('Pippalu', this)">Add to Cart</button>
-    </div>
-    <div class="product">
-      <img src="murukulu.jpg" alt="Murukulu">
-      <h3>Murukulu</h3>
-      <select>
-        <option value="">Select Quantity</option>
-        <option value="100g - ₹60">100g - ₹60</option>
-        <option value="200g - ₹110">200g - ₹110</option>
-        <option value="500g - ₹250">500g - ₹250</option>
-      </select>
-      <button onclick="addToCart('Murukulu', this)">Add to Cart</button>
-    </div>
+  <section class="products" id="products">
+    <!-- product cards injected by JS -->
   </section>
 
-  <!-- Cart Sidebar -->
-  <div id="cart">
-    <h2>Your Cart</h2>
-    <div id="cartItems"></div>
-    <p><strong>Total: ₹<span id="total">0</span></strong></p>
-    <button id="checkoutBtn" onclick="showCheckout()">Proceed to Checkout</button>
-    <button id="closeCart" onclick="toggleCart()">Close</button>
+  <!-- Checkout area (appears when Proceed to Checkout) -->
+  <section id="checkoutArea">
+    <h3>Checkout</h3>
+    <p><strong>Items:</strong> <span id="checkoutItemsSummary"></span></p>
+    <p class="cart-total"><strong>Total: ₹<span id="checkoutTotal">0</span></strong></p>
+
+    <h4>Delivery Details</h4>
+    <input id="c_name" placeholder="Full Name" required />
+    <input id="c_phone" placeholder="Phone" required />
+    <input id="c_email" placeholder="Email" required />
+    <input id="c_pincode" placeholder="Pincode" required />
+    <input id="c_mandal" placeholder="Mandal" required />
+    <input id="c_district" placeholder="District" required />
+    <input id="c_state" placeholder="State" required />
+
+    <div style="margin-top:12px"><strong>Choose Payment</strong></div>
+    <div class="payment-row">
+      <button class="payment-btn cod" onclick="confirmOrder('COD')">Cash on Delivery</button>
+      <button class="payment-btn online" onclick="confirmOrder('Online')">Pay Online</button>
+    </div>
+
+    <div id="qrWrap">
+      <h4>Scan to Pay</h4>
+      <img src="qrcode.png" alt="Scan to pay" />
+      <p style="font-size:14px;color:#555">Scan the QR from your UPI app to complete payment. After successful payment, please inform us (WhatsApp/call).</p>
+    </div>
+  </section>
+</main>
+
+<!-- Cart sidebar -->
+<aside id="cart" aria-hidden="true">
+  <h3>Your Cart</h3>
+  <div id="cartList" class="cart-list"></div>
+  <div class="cart-bottom">
+    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
+    <button id="proceedBtn" class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    <button class="close-cart" onclick="toggleCart()">Close</button>
   </div>
+</aside>
 
-  <!-- Checkout Form -->
-  <section id="checkoutForm">
-    <h2>Delivery Details</h2>
-    <input type="text" placeholder="Full Name" required>
-    <input type="text" placeholder="Phone" required>
-    <input type="email" placeholder="Email" required>
-    <input type="text" placeholder="Pincode" required>
-    <input type="text" placeholder="Mandal" required>
-    <input type="text" placeholder="District" required>
-    <input type="text" placeholder="State" required>
-    <button class="codBtn" onclick="placeOrder('COD')">Cash on Delivery</button>
-    <button class="onlineBtn" onclick="placeOrder('Online')">Pay Online</button>
+<div id="toast"></div>
 
-    <div id="qrCode">
-      <h3>Scan to Pay</h3>
-      <img src="qrcode.png" alt="QR Code" width="200">
-    </div>
-  </section>
+<footer style="margin-top:40px;padding:30px 12px;background:rgba(0,0,0,0.6);color:#fff;text-align:center;">
+  <p>📞 +91-9876543210 | ✉️ homemade@gmail.com | Hyderabad, India</p>
+  <p>Support: +91-9876543210</p>
+</footer>
 
-  <footer>
-    <p>📞 +91-9876543210 | ✉️ homemade@gmail.com | Hyderabad, India</p>
-    <p>Support: +91-9876543210</p>
-  </footer>
+<script>
+/* ---------- Data ---------- */
+const products = [
+  {
+    id: 'pippalu',
+    name: 'Pippalu',
+    img: 'pippalu.jpg',
+    desc: 'Delicious homemade Pippalu with authentic taste.',
+    priceOptions: { '100g':50, '200g':90, '500g':200 },
+    badge: 'Best Seller'
+  },
+  {
+    id: 'murukulu',
+    name: 'Murukulu',
+    img: 'murukulu.jpg',
+    desc: 'Crispy homemade Murukulu made with love.',
+    priceOptions: { '100g':60, '200g':110, '500g':250 },
+    badge: 'New'
+  }
+];
 
-  <script>
-    let cart = [];
+let cart = []; // {id, name, optionLabel, price, qty}
 
-    function toggleCart() {
-      let cartBox = document.getElementById('cart');
-      cartBox.style.right = (cartBox.style.right === "0px") ? "-400px" : "0px";
-    }
+/* ---------- UI helpers ---------- */
+function $(s){ return document.querySelector(s) }
+function showToast(msg, timeout=1800){
+  const t = $('#toast');
+  t.textContent = msg; t.style.display = 'block';
+  t.style.opacity = '1';
+  clearTimeout(t._hide);
+  t._hide = setTimeout(()=>{ t.style.display='none' }, timeout);
+}
 
-    function addToCart(product, btn) {
-      let quantity = btn.previousElementSibling.value;
-      if (!quantity) { alert("Please select quantity"); return; }
+/* ---------- render products ---------- */
+function renderProducts(){
+  const container = $('#products');
+  container.innerHTML = '';
+  products.forEach(prod=>{
+    const card = document.createElement('div'); card.className='card';
+    card.innerHTML = `
+      ${prod.badge?`<div class="badge">${prod.badge}</div>`:''}
+      <img src="${prod.img}" alt="${prod.name}">
+      <h4>${prod.name}</h4>
+      <p>${prod.desc}</p>
+      <label style="display:block;text-align:left;font-size:13px;color:${'var(--muted)'}">Select quantity & price</label>
+      <select aria-label="quantity" id="select-${prod.id}">
+        <option value="">Select Quantity</option>
+        ${Object.entries(prod.priceOptions).map(([k,v])=>`<option value="${k} - ${v}">${k} - ₹${v}</option>`).join('')}
+      </select>
+      <button class="add" onclick="addToCart('${prod.id}')">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+}
 
-      let price = parseInt(quantity.split("₹")[1]);
-      cart.push({ product, quantity, price });
+/* ---------- cart behavior ---------- */
+function addToCart(prodId){
+  const sel = $(`#select-${prodId}`);
+  if(!sel) return;
+  const val = sel.value;
+  if(!val){ showToast('Please select quantity first'); return; }
+  const [label, priceStr] = val.split(' - ');
+  const price = parseInt(priceStr);
+  const prod = products.find(p=>p.id===prodId);
+  // if same product + same option exists, increment qty
+  const existing = cart.find(it => it.id===prodId && it.optionLabel===label);
+  if(existing){
+    existing.qty += 1;
+  } else {
+    cart.push({ id: prod.id, name: prod.name, optionLabel: label, price: price, qty: 1, img: prod.img });
+  }
+  updateCartUI();
+  showToast(`${prod.name} added to cart`);
+}
 
-      updateCart();
-      alert(product + " added to cart!");
-    }
+function updateCartUI(){
+  const list = $('#cartList');
+  list.innerHTML = '';
+  let total = 0;
+  cart.forEach((it, idx)=>{
+    total += it.price * it.qty;
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <img src="${it.img}" alt="${it.name}">
+      <div class="info">
+        <strong>${it.name}</strong>
+        <small style="color:#666">${it.optionLabel} • ₹${it.price}</small>
+      </div>
+      <div style="text-align:right">
+        <input class="qty" type="number" value="${it.qty}" min="1" onchange="updateQty(${idx}, this.value)" style="width:56px;padding:6px;border-radius:6px;border:1px solid #ddd">
+        <div style="margin-top:6px"><button style="background:transparent;border:none;color:#f44336;cursor:pointer" onclick="removeItem(${idx})">Remove</button></div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+  $('#totalPrice').textContent = total;
+  $('#cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+  // hide proceed if cart empty
+  $('#proceedBtn').disabled = cart.length===0;
+}
 
-    function updateCart() {
-      let cartItems = document.getElementById("cartItems");
-      let total = 0;
-      cartItems.innerHTML = "";
-      cart.forEach((item, index) => {
-        total += item.price;
-        cartItems.innerHTML += `<div class="cart-item">
-          ${item.product} - ${item.quantity}
-          <button onclick="removeItem(${index})" style="float:right;">❌</button>
-        </div>`;
-      });
-      document.getElementById("total").textContent = total;
-    }
+/* qty update & remove */
+function updateQty(index, val){
+  const v = parseInt(val)||1;
+  cart[index].qty = v;
+  updateCartUI();
+}
+function removeItem(index){
+  cart.splice(index,1);
+  updateCartUI();
+}
 
-    function removeItem(index) {
-      cart.splice(index, 1);
-      updateCart();
-    }
+/* toggle cart */
+function toggleCart(){
+  const el = $('#cart');
+  if(el.classList.contains('open')) el.classList.remove('open');
+  else el.classList.add('open');
+}
 
-    function showCheckout() {
-      toggleCart();
-      document.getElementById("checkoutForm").style.display = "block";
-      window.scrollTo({ top: document.getElementById("checkoutForm").offsetTop, behavior: "smooth" });
-    }
+/* proceed to checkout */
+function proceedToCheckout(){
+  if(cart.length===0){ showToast('Cart is empty'); return; }
+  toggleCart();
+  // build summary
+  const summary = cart.map(it=>`${it.name} (${it.optionLabel}) x ${it.qty}`).join(', ');
+  $('#checkoutItemsSummary').textContent = summary;
+  $('#checkoutTotal').textContent = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+  $('#checkoutArea').style.display = 'block';
+  window.scrollTo({ top: document.getElementById('checkoutArea').offsetTop - 20, behavior:'smooth' });
+}
 
-    function placeOrder(type) {
-      if (type === "COD") {
-        alert("✅ Order placed with Cash on Delivery!");
-      } else {
-        document.getElementById("qrCode").style.display = "block";
-      }
-    }
-  </script>
+/* confirm order */
+function confirmOrder(type){
+  // validate fields quickly
+  const name = $('#c_name').value.trim();
+  const phone = $('#c_phone').value.trim();
+  const email = $('#c_email').value.trim();
+  const pincode = $('#c_pincode').value.trim();
+  const mandal = $('#c_mandal').value.trim();
+  const district = $('#c_district').value.trim();
+  const state = $('#c_state').value.trim();
+  if(!name || !phone || !pincode || !mandal || !district || !state || !email){
+    showToast('Please fill all delivery fields');
+    return;
+  }
+
+  const order = {
+    customer:{name,phone,email,pincode,mandal,district,state},
+    items: cart.map(i=>({name:i.name, option:i.optionLabel, price:i.price, qty:i.qty})),
+    total: cart.reduce((s,i)=>s + i.price*i.qty, 0),
+    payment: type
+  };
+
+  if(type==='COD'){
+    // finalize order, in real app send to server, send whatsapp/email etc.
+    showToast('Order placed — Cash on Delivery selected');
+    console.log('ORDER', order);
+    clearAfterOrder();
+    alert('Order confirmed! We will contact you soon.');
+  } else {
+    // show QR to customer
+    $('#qrWrap').style.display = 'block';
+    showToast('Scan the QR to pay online');
+    console.log('PENDING ONLINE ORDER', order);
+    // in real app: after payment verification, finalize & notify
+  }
+}
+
+/* clear */
+function clearAfterOrder(){
+  cart = [];
+  updateCartUI();
+  $('#checkoutArea').style.display = 'none';
+  $('#c_name').value='';$('#c_phone').value='';$('#c_email').value='';$('#c_pincode').value='';$('#c_mandal').value='';$('#c_district').value='';$('#c_state').value='';
+}
+
+/* initial render */
+renderProducts();
+updateCartUI();
+
+</script>
 </body>
 </html>
