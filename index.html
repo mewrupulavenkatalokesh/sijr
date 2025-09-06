@@ -1,271 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Homemade Products</title>
-<style>
-  body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
-  header{background:#4CAF50;color:white;text-align:center;padding:25px;font-size:28px;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homemade Products</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url("background.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
 
-  /* Hero Section */
-  .hero { background: url('banner.jpg') center/cover no-repeat; color:#fff; text-align:center; padding:80px 20px; }
-  .hero h1 { font-size:40px; margin-bottom:10px; text-shadow: 2px 2px 5px #000; }
-  .hero p { font-size:20px; max-width:600px; margin:auto; text-shadow: 1px 1px 4px #000; }
+    header {
+      background: rgba(0, 100, 0, 0.85);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    header h1 {
+      font-size: 40px;
+      margin: 0;
+    }
+    header p {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #f1f1f1;
+    }
 
-  /* Categories */
-  .categories { text-align:center; margin:20px; }
-  .categories button { margin:5px; padding:10px 20px; border:none; border-radius:20px; background:#eee; cursor:pointer; }
-  .categories button:hover { background:#4CAF50; color:#fff; }
+    .products {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 50px 20px;
+      flex-wrap: wrap;
+    }
+    .product {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .product h3 {
+      margin: 15px 0 10px;
+      font-size: 22px;
+      color: #2d572c;
+    }
+    .product p {
+      font-size: 15px;
+      color: #555;
+    }
 
-  /* Products */
-  .products { width: 90%; margin: 20px auto; display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
-  .product { background:white; border-radius:15px; width:250px; text-align:center; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s; position:relative; }
-  .product:hover { transform:translateY(-5px); }
-  .product img{width:100%; border-radius:15px;}
-  .product h3{margin:15px 0 10px;}
-  .price{color:#e91e63;font-weight:bold;margin:10px 0;}
-  .badge { position:absolute; top:10px; left:10px; background:#ff8404; color:#fff; padding:4px 8px; border-radius:5px; font-size:12px; }
+    .order-form {
+      margin-top: 15px;
+      text-align: left;
+    }
+    .order-form input, .order-form select {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .order-form button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .order-form button:hover {
+      background: #45a049;
+    }
 
-  /* Form & Inputs */
-  select, input {padding:8px;border-radius:5px;border:1px solid #ccc;margin:5px 0;width:90%;}
-  button{padding:8px 15px;background:#4CAF50;color:white;border:none;border-radius:5px;cursor:pointer;}
-  button:hover{background:#45a049;}
-  .hidden{display:none;}
-
-  /* Order Modal */
-  #orderModal {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;justify-content:center;align-items:center;}
-  #orderModal .box {background:white;padding:20px;border-radius:15px;width:350px;max-height:90%;overflow:auto;position:relative;}
-
-  /* Floating admin panel */
-  #adminPanel { position:fixed; right:0; top:80px; width:350px; max-height:80%; overflow:auto; background:rgba(255,255,255,0.95); border-radius:15px; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.3);}
-  
-  /* Admin login box */
-  #adminLoginBox { position:fixed; top:10px; right:10px; background:#fff; padding:10px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.2); z-index:1000; }
-
-  /* Info sections */
-  section.info { width:90%; margin:40px auto; }
-  section.info h2 { color:#4CAF50; margin-bottom:10px; }
-  section.info ul { list-style: none; padding:0; }
-  section.info ul li { padding:5px 0; }
-  dl dt { font-weight:bold; margin-top:10px; }
-  dl dd { margin-left:20px; }
-  
-  footer { background:#333; color:white; text-align:center; padding:20px; margin-top:40px; }
-</style>
+    footer {
+      background: #2c2c2c;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 50px;
+    }
+    footer p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
 
-<header>Homemade Products</header>
+  <header>
+    <h1>Homemade Products</h1>
+    <p>Fresh, tasty, and made with love for your family</p>
+  </header>
 
-<!-- Hero Section -->
-<div class="hero">
-  <h1>Natural Homemade Delights</h1>
-  <p>Fresh, tasty, and healthy homemade snacks made with love in Hyderabad</p>
-</div>
+  <section class="products">
+    <!-- Product 1 -->
+    <div class="product">
+      <img src="pippalu.jpg" alt="Pippalu">
+      <h3>Pippalu</h3>
+      <p>Delicious homemade Pippalu with authentic taste.</p>
+      <form class="order-form" onsubmit="placeOrder(event, 'Pippalu')">
+        <select name="quantity" required>
+          <option value="">Select Quantity</option>
+          <option value="100g">100g</option>
+          <option value="200g">200g</option>
+          <option value="500g">500g</option>
+        </select>
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <input type="text" name="pincode" placeholder="Pincode" required>
+        <input type="text" name="mandal" placeholder="Mandal" required>
+        <input type="text" name="district" placeholder="District" required>
+        <input type="text" name="state" placeholder="State" required>
+        <button type="submit">Place Order</button>
+      </form>
+    </div>
 
-<!-- Category Navigation -->
-<div class="categories">
-  <button onclick="filterCategory('All')">All</button>
-  <button onclick="filterCategory('Pippalu')">Pippalu</button>
-  <button onclick="filterCategory('Murukulu')">Murukulu</button>
-</div>
+    <!-- Product 2 -->
+    <div class="product">
+      <img src="murukulu.jpg" alt="Murukulu">
+      <h3>Murukulu</h3>
+      <p>Crispy homemade Murukulu made with love.</p>
+      <form class="order-form" onsubmit="placeOrder(event, 'Murukulu')">
+        <select name="quantity" required>
+          <option value="">Select Quantity</option>
+          <option value="100g">100g</option>
+          <option value="200g">200g</option>
+          <option value="500g">500g</option>
+        </select>
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <input type="text" name="pincode" placeholder="Pincode" required>
+        <input type="text" name="mandal" placeholder="Mandal" required>
+        <input type="text" name="district" placeholder="District" required>
+        <input type="text" name="state" placeholder="State" required>
+        <button type="submit">Place Order</button>
+      </form>
+    </div>
+  </section>
 
-<!-- Admin Login (moved to corner) -->
-<div id="adminLoginBox">
-  <input type="password" id="adminPassword" placeholder="Admin Password" style="width:120px;">
-  <button onclick="adminLogin()">Login</button>
-</div>
+  <footer>
+    <p>📞 +91-9876543210 | ✉️ homemade@gmail.com | Hyderabad, India</p>
+    <p>Support: +91-9876543210</p>
+  </footer>
 
-<!-- Admin Panel -->
-<div id="adminPanel" class="hidden">
-  <h3>Admin Panel - Update Prices</h3>
-  <table id="adminTable" border="1" style="width:100%; border-collapse: collapse; text-align:center;">
-    <thead>
-      <tr>
-        <th>Product</th><th>Qty1</th><th>Price1</th><th>Qty2</th><th>Price2</th><th>Qty3</th><th>Price3</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-  <button onclick="updateProductsFromAdmin()">Update Products</button>
-</div>
-
-<!-- Customer Products -->
-<section class="products" id="products"></section>
-
-<!-- Order Form Modal (hidden by default) -->
-<div id="orderModal" class="hidden">
-  <div class="box">
-    <h3>Place Your Order</h3>
-    <form id="orderForm">
-      <input type="text" id="customerName" placeholder="Full Name" required><br>
-      <input type="email" id="customerEmail" placeholder="Email" required><br>
-      <input type="tel" id="customerPhone" placeholder="Phone" required><br>
-      <input type="text" id="customerPincode" placeholder="Pincode" required><br>
-      <input type="text" id="customerMandal" placeholder="Mandal" required><br>
-      <input type="text" id="customerDistrict" placeholder="District" required><br>
-      <input type="text" id="customerState" placeholder="State" required><br>
-      <p id="selectedProduct"></p>
-      <p id="selectedPrice"></p>
-      <button type="submit">Submit Order</button>
-      <button type="button" onclick="closeOrderModal()">Cancel</button>
-    </form>
-  </div>
-</div>
-
-<!-- Info Sections -->
-<section class="info">
-  <h2>About Us</h2>
-  <p>We bring you traditional homemade snacks prepared with natural ingredients and authentic flavors.</p>
-</section>
-
-<section class="info">
-  <h2>Why Choose Us</h2>
-  <ul>
-    <li>100% homemade with natural ingredients</li>
-    <li>Authentic taste, no preservatives</li>
-    <li>Flexible quantity and real-time pricing</li>
-  </ul>
-</section>
-
-<section class="info">
-  <h2>FAQ</h2>
-  <dl>
-    <dt>How do I place an order?</dt>
-    <dd>Select a product, choose quantity, and click "Order".</dd>
-    <dt>Do you deliver everywhere?</dt>
-    <dd>We deliver across Hyderabad and nearby areas.</dd>
-  </dl>
-</section>
-
-<footer>
-  Contact us: +91-XXXXXXXXXX | email@example.com | Hyderabad, India
-</footer>
-
-<script>
-let products = [
-  { name: "Pippalu", badge:"Best Seller", priceOptions: {"100g":100,"200g":200,"500g":450} },
-  { name: "Murukulu", badge:"New Arrival", priceOptions: {"100g":60,"200g":120,"500g":300} }
-];
-
-const productsContainer = document.getElementById("products");
-const adminPanel = document.getElementById("adminPanel");
-
-// Admin login
-function adminLogin(){
-  const pw = document.getElementById("adminPassword").value;
-  if(pw === "admin123"){
-    adminPanel.classList.remove("hidden");
-    renderAdminTable();
-    alert("Admin Panel Opened!");
-  }else alert("Wrong Password!");
-}
-
-// Render customer products
-function renderProducts(category="All"){
-  productsContainer.innerHTML = "";
-  products.forEach((p,index)=>{
-    if(category!=="All" && p.name!==category) return;
-    const div = document.createElement("div");
-    div.className="product";
-    const options = Object.keys(p.priceOptions).map(q=>`<option value="${q}">${q}</option>`).join("");
-    div.innerHTML = `
-      ${p.badge?`<div class="badge">${p.badge}</div>`:""}
-      <img src="${p.name.toLowerCase()}.jpg" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <select id="qty-${index}">${options}</select>
-      <p class="price" id="price-${index}">₹${p.priceOptions[Object.keys(p.priceOptions)[0]]}</p>
-      <button onclick="openOrderModal(${index})">Order</button>
-    `;
-    productsContainer.appendChild(div);
-    document.getElementById(`qty-${index}`).addEventListener("change",()=>{
-      const sel = document.getElementById(`qty-${index}`).value;
-      document.getElementById(`price-${index}`).innerText = `₹${p.priceOptions[sel]}`;
-    });
-  });
-}
-
-// Filter category
-function filterCategory(cat){ renderProducts(cat); }
-
-// Admin Table
-function renderAdminTable(){
-  const tbody = document.querySelector("#adminTable tbody");
-  tbody.innerHTML = "";
-  products.forEach((p,index)=>{
-    const keys = Object.keys(p.priceOptions);
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${p.name}</td>
-      <td><input type="text" value="${keys[0]||''}" data-index="${index}" data-type="qty1"></td>
-      <td><input type="number" value="${p.priceOptions[keys[0]]||''}" data-index="${index}" data-type="price1"></td>
-      <td><input type="text" value="${keys[1]||''}" data-index="${index}" data-type="qty2"></td>
-      <td><input type="number" value="${p.priceOptions[keys[1]]||''}" data-index="${index}" data-type="price2"></td>
-      <td><input type="text" value="${keys[2]||''}" data-index="${index}" data-type="qty3"></td>
-      <td><input type="number" value="${p.priceOptions[keys[2]]||''}" data-index="${index}" data-type="price3"></td>
-    `;
-    tbody.appendChild(row);
-  });
-}
-
-// Update products from admin
-function updateProductsFromAdmin(){
-  const inputs = document.querySelectorAll("#adminTable input");
-  inputs.forEach(input=>{
-    const i = input.dataset.index;
-    const type = input.dataset.type;
-    if(!products[i].priceOptions) products[i].priceOptions={};
-    if(type.startsWith("qty")){
-      const priceKey = "price"+type.slice(3);
-      const priceInput = document.querySelector(`#adminTable input[data-index='${i}'][data-type='${priceKey}']`);
-      if(input.value && priceInput.value) products[i].priceOptions[input.value]=Number(priceInput.value);
+  <script>
+    function placeOrder(event, productName) {
+      event.preventDefault();
+      const form = event.target;
+      const data = new FormData(form);
+      let details = `✅ Order Received for ${productName}\n`;
+      data.forEach((value, key) => {
+        details += `${key}: ${value}\n`;
+      });
+      alert(details);
+      form.reset();
     }
-  });
-  renderProducts();
-  alert("Products Updated!");
-}
+  </script>
 
-// Order Modal
-let currentIndex=0;
-function openOrderModal(index){
-  currentIndex=index;
-  document.getElementById("orderModal").classList.remove("hidden");
-  const sel = document.getElementById(`qty-${index}`).value;
-  document.getElementById("selectedProduct").innerText = products[index].name + " - " + sel;
-  document.getElementById("selectedPrice").innerText = "₹"+products[index].priceOptions[sel];
-}
-function closeOrderModal(){document.getElementById("orderModal").classList.add("hidden");}
-
-// Submit order
-document.getElementById("orderForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  const name=document.getElementById("customerName").value;
-  const email=document.getElementById("customerEmail").value;
-  const phone=document.getElementById("customerPhone").value;
-  const pincode=document.getElementById("customerPincode").value;
-  const mandal=document.getElementById("customerMandal").value;
-  const district=document.getElementById("customerDistrict").value;
-  const state=document.getElementById("customerState").value;
-  const product=document.getElementById("selectedProduct").innerText;
-  const price=document.getElementById("selectedPrice").innerText;
-
-  alert(`Order Received!
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Pincode: ${pincode}
-Mandal: ${mandal}
-District: ${district}
-State: ${state}
-Product: ${product}
-Price: ${price}`);
-
-  closeOrderModal();
-  document.getElementById("orderForm").reset();
-});
-
-renderProducts();
-</script>
 </body>
 </html>
