@@ -7,41 +7,37 @@
 <style>
   body { font-family: Arial; margin:0; padding:0; background: linear-gradient(135deg,#fceabb,#f8b500);}
   header{background:#4CAF50;color:white;text-align:center;padding:25px;font-size:28px;}
-  .admin, .products { width: 90%; margin: 20px auto; padding: 10px; background: rgba(255,255,255,0.9); border-radius: 15px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-  .products { display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
-  .product { background:white; border-radius:15px; width:250px; text-align:center; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.2);}
+  .products { width: 90%; margin: 20px auto; display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+  .product { background:white; border-radius:15px; width:250px; text-align:center; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.2); }
   .product img{width:100%; border-radius:15px;}
   .product h3{margin:15px 0 10px;}
   .price{color:#e91e63;font-weight:bold;margin:10px 0;}
   select, input, textarea{padding:5px;border-radius:5px;border:1px solid #ccc;margin:5px 0;width:90%;}
   button{padding:8px 15px;background:#4CAF50;color:white;border:none;border-radius:5px;cursor:pointer;}
+  button:hover{background:#45a049;}
   .hidden{display:none;}
+  
+  /* Floating admin panel */
+  #adminPanel { position:fixed; right:0; top:80px; width:350px; max-height:80%; overflow:auto; background:rgba(255,255,255,0.95); border-radius:15px; padding:15px; box-shadow:0 4px 10px rgba(0,0,0,0.3);}
 </style>
 </head>
 <body>
 
 <header>Homemade Products</header>
 
-<!-- Admin login -->
-<div class="admin" id="adminLoginDiv">
-  <h3>Admin Login</h3>
+<!-- Admin Login -->
+<div style="text-align:center; margin:20px;">
   <input type="password" id="adminPassword" placeholder="Enter Admin Password">
-  <button onclick="adminLogin()">Login</button>
+  <button onclick="adminLogin()">Login as Admin</button>
 </div>
 
 <!-- Admin Panel -->
-<div class="admin hidden" id="adminPanel">
-  <h2>Admin Panel - Update Prices</h2>
-  <table id="adminTable">
+<div id="adminPanel" class="hidden">
+  <h3>Admin Panel - Update Prices</h3>
+  <table id="adminTable" border="1" style="width:100%; border-collapse: collapse; text-align:center;">
     <thead>
       <tr>
-        <th>Product</th>
-        <th>Quantity 1</th>
-        <th>Price 1</th>
-        <th>Quantity 2</th>
-        <th>Price 2</th>
-        <th>Quantity 3</th>
-        <th>Price 3</th>
+        <th>Product</th><th>Qty1</th><th>Price1</th><th>Qty2</th><th>Price2</th><th>Qty3</th><th>Price3</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -69,54 +65,47 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_EMAILJS_USER_ID"); // replace with your EmailJS user ID
-
 let products = [
-  { name: "Pippalu", image: "pippalu.jpg", priceOptions: {"100g":100,"200g":200,"500g":450} },
-  { name: "Murukulu", image: "murukulu.jpg", priceOptions: {"100g":60,"200g":120,"500g":300} }
+  { name: "Pippalu", priceOptions: {"100g":100,"200g":200,"500g":450} },
+  { name: "Murukulu", priceOptions: {"100g":60,"200g":120,"500g":300} }
 ];
 
 const productsContainer = document.getElementById("products");
 const adminPanel = document.getElementById("adminPanel");
-const adminLoginDiv = document.getElementById("adminLoginDiv");
 
 // Admin login
-function adminLogin() {
-  const password = document.getElementById("adminPassword").value;
-  if(password === "admin123"){ // simple password
+function adminLogin(){
+  const pw = document.getElementById("adminPassword").value;
+  if(pw === "admin123"){
     adminPanel.classList.remove("hidden");
-    adminLoginDiv.classList.add("hidden");
     renderAdminTable();
-  } else {
-    alert("Wrong Password!");
-  }
+    alert("Admin Panel Opened!");
+  }else alert("Wrong Password!");
 }
 
 // Render customer products
-function renderProducts() {
+function renderProducts(){
   productsContainer.innerHTML = "";
-  products.forEach((product,index)=>{
-    const productDiv = document.createElement("div");
-    productDiv.className = "product";
-    const options = Object.keys(product.priceOptions).map(q=>`<option value="${q}">${q}</option>`).join("");
-    productDiv.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h3>${product.name}</h3>
+  products.forEach((p,index)=>{
+    const div = document.createElement("div");
+    div.className="product";
+    const options = Object.keys(p.priceOptions).map(q=>`<option value="${q}">${q}</option>`).join("");
+    div.innerHTML = `
+      <h3>${p.name}</h3>
       <select id="qty-${index}">${options}</select>
-      <p class="price" id="price-${index}">₹${product.priceOptions[Object.keys(product.priceOptions)[0]]}</p>
+      <p class="price" id="price-${index}">₹${p.priceOptions[Object.keys(p.priceOptions)[0]]}</p>
       <button onclick="openOrderModal(${index})">Order</button>
     `;
-    productsContainer.appendChild(productDiv);
+    productsContainer.appendChild(div);
     document.getElementById(`qty-${index}`).addEventListener("change",()=>{
       const sel = document.getElementById(`qty-${index}`).value;
-      document.getElementById(`price-${index}`).innerText = `₹${product.priceOptions[sel]}`;
+      document.getElementById(`price-${index}`).innerText = `₹${p.priceOptions[sel]}`;
     });
   });
 }
 
-// Admin table
+// Admin Table
 function renderAdminTable(){
   const tbody = document.querySelector("#adminTable tbody");
   tbody.innerHTML = "";
@@ -136,16 +125,17 @@ function renderAdminTable(){
   });
 }
 
+// Update products from admin
 function updateProductsFromAdmin(){
   const inputs = document.querySelectorAll("#adminTable input");
   inputs.forEach(input=>{
-    const index = input.dataset.index;
+    const i = input.dataset.index;
     const type = input.dataset.type;
-    if(!products[index].priceOptions) products[index].priceOptions={};
+    if(!products[i].priceOptions) products[i].priceOptions={};
     if(type.startsWith("qty")){
       const priceKey = "price"+type.slice(3);
-      const priceInput = document.querySelector(`#adminTable input[data-index='${index}'][data-type='${priceKey}']`);
-      if(input.value && priceInput.value) products[index].priceOptions[input.value] = Number(priceInput.value);
+      const priceInput = document.querySelector(`#adminTable input[data-index='${i}'][data-type='${priceKey}']`);
+      if(input.value && priceInput.value) products[i].priceOptions[input.value]=Number(priceInput.value);
     }
   });
   renderProducts();
@@ -153,40 +143,40 @@ function updateProductsFromAdmin(){
 }
 
 // Order Modal
-let currentOrderIndex = 0;
+let currentIndex=0;
 function openOrderModal(index){
-  currentOrderIndex = index;
+  currentIndex=index;
   document.getElementById("orderModal").classList.remove("hidden");
   const sel = document.getElementById(`qty-${index}`).value;
   document.getElementById("selectedProduct").innerText = products[index].name + " - " + sel;
-  document.getElementById("selectedPrice").innerText = "₹" + products[index].priceOptions[sel];
+  document.getElementById("selectedPrice").innerText = "₹"+products[index].priceOptions[sel];
 }
 function closeOrderModal(){document.getElementById("orderModal").classList.add("hidden");}
 
 // Submit order
 document.getElementById("orderForm").addEventListener("submit", function(e){
   e.preventDefault();
-  const name = document.getElementById("customerName").value;
-  const email = document.getElementById("customerEmail").value;
-  const phone = document.getElementById("customerPhone").value;
-  const address = document.getElementById("customerAddress").value;
-  const product = document.getElementById("selectedProduct").innerText;
-  const price = document.getElementById("selectedPrice").innerText;
+  const name=document.getElementById("customerName").value;
+  const email=document.getElementById("customerEmail").value;
+  const phone=document.getElementById("customerPhone").value;
+  const address=document.getElementById("customerAddress").value;
+  const product=document.getElementById("selectedProduct").innerText;
+  const price=document.getElementById("selectedPrice").innerText;
 
-  // Send email via EmailJS
-  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
-    customer_name: name,
-    customer_email: email,
-    customer_phone: phone,
-    customer_address: address,
-    product: product,
-    price: price
-  }).then(()=>{alert("Order submitted! You will be contacted shortly.");closeOrderModal();},(err)=>{alert("Error sending order!");});
+  alert(`Order Received!
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Address: ${address}
+Product: ${product}
+Price: ${price}`);
 
+  closeOrderModal();
   document.getElementById("orderForm").reset();
 });
 
 renderProducts();
 </script>
+
 </body>
 </html>
