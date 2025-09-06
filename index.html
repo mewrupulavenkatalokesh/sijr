@@ -50,13 +50,16 @@
 
 <!-- Order Form Modal -->
 <div id="orderModal" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:flex;justify-content:center;align-items:center;">
-  <div style="background:white;padding:20px;border-radius:15px;width:300px;position:relative;">
+  <div style="background:white;padding:20px;border-radius:15px;width:350px;position:relative;">
     <h3>Place Your Order</h3>
     <form id="orderForm">
       <input type="text" id="customerName" placeholder="Full Name" required><br>
       <input type="email" id="customerEmail" placeholder="Email" required><br>
       <input type="tel" id="customerPhone" placeholder="Phone" required><br>
-      <textarea id="customerAddress" placeholder="Delivery Address" required></textarea><br>
+      <input type="text" id="customerPincode" placeholder="Pincode" required><br>
+      <input type="text" id="customerMandal" placeholder="Mandal" required><br>
+      <input type="text" id="customerDistrict" placeholder="District" required><br>
+      <input type="text" id="customerState" placeholder="State" required><br>
       <p id="selectedProduct"></p>
       <p id="selectedPrice"></p>
       <button type="submit">Submit Order</button>
@@ -159,24 +162,6 @@ document.getElementById("orderForm").addEventListener("submit", function(e){
   const name=document.getElementById("customerName").value;
   const email=document.getElementById("customerEmail").value;
   const phone=document.getElementById("customerPhone").value;
-  const address=document.getElementById("customerAddress").value;
-  const product=document.getElementById("selectedProduct").innerText;
-  const price=document.getElementById("selectedPrice").innerText;
-
-  alert(`Order Received!
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Address: ${address}
-Product: ${product}
-Price: ${price}`);
-
-  closeOrderModal();
-  document.getElementById("orderForm").reset();
-});
-
-renderProducts();
-</script>
-
-</body>
-</html>
+  const pincode=document.getElementById("customerPincode").value;
+  const mandal=document.getElementById("customerMandal").value;
+  const district=document.getElementById
