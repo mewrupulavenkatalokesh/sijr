@@ -1,71 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Homemade Products — Shop</title>
 <style>
   :root{--green:#2e7d32;--accent:#4CAF50;--muted:#666;--card-bg:#fff;}
-  body{margin:0;font-family:system-ui,sans-serif;background:#f7f7f7;color:#222;}
-  header{background:var(--green);color:#fff;padding:1rem;text-align:center;}
-  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;padding:1rem;}
-  .card{background:var(--card-bg);padding:1rem;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1);position:relative;}
-  .card img{width:100%;border-radius:12px;}
-  .badge{position:absolute;top:10px;left:10px;background:#ff9800;color:#fff;padding:2px 8px;border-radius:8px;font-size:.8rem;}
-  .cart-btn{position:fixed;top:1rem;right:1rem;background:var(--accent);color:#fff;padding:.5rem 1rem;border:none;border-radius:20px;cursor:pointer;}
-  #cart{position:fixed;right:-400px;top:0;width:350px;height:100%;background:#fff;box-shadow:-2px 0 8px rgba(0,0,0,.2);transition:.3s;padding:1rem;overflow-y:auto;}
-  #cart.open{right:0;}
-  .item{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;}
-  .item img{width:50px;height:50px;border-radius:8px;}
-  .qty{width:50px;}
-  #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:.5rem 1rem;border-radius:20px;display:none;}
-  #checkoutArea{background:#fff;padding:1rem;margin:1rem;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.1);}
-  #checkoutArea input{width:100%;padding:.5rem;margin:.3rem 0;border:1px solid #ccc;border-radius:8px;}
-  #qrWrap{text-align:center;margin-top:1rem;display:none;}
-  #qrWrap img{max-width:200px;border:4px solid #eee;border-radius:12px;}
+  body{margin:0;font-family:system-ui,Arial,sans-serif;background:#fafafa;color:#222;}
+
+  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;position:sticky;top:0;z-index:50;}
+  header h1{margin:0;font-size:28px}
+  header p{margin:6px 0 0;opacity:0.95}
+  .top-actions{position:absolute; right:18px; top:18px}
+  .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+
+  main{max-width:1200px;margin:34px auto;padding:0 18px;}
+  .hero{background:#fff;border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+  .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
+  .hero p{margin:0;color:var(--muted)}
+
+  .about{margin-top:26px;background:#fff;padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+  .about h3{color:var(--green);margin:0 0 10px}
+
+  .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
+  .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
+  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
+  .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+  .card h4{margin:12px 0 6px;color:var(--green)}
+  .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
+  .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+  .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
+
+  #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
+  #cart.open{right:0}
+  #cart h3{margin:6px 0 14px;color:var(--green)}
+  .cart-list .item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
+  .cart-list .item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+  .cart-list .info{flex:1;text-align:left}
+  .cart-list .info strong{display:block}
+  .cart-list .qty{width:64px}
+  .cart-bottom{margin-top:14px}
+  .cart-bottom .total{font-weight:700;font-size:18px;margin-bottom:10px}
+  .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
+  .checkout-btn{background:#1976d2;color:#fff}
+  .close-cart{background:#f44336;color:#fff;margin-top:8px}
+
+  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  #checkoutArea h3{color:var(--green)}
+  #checkoutArea label{display:block;margin-top:10px;font-weight:600;color:#333}
+  #checkoutArea input{width:100%;padding:10px;margin-top:4px;border-radius:8px;border:1px solid #ddd}
+
+  .payment-row{display:flex;gap:10px;margin-top:12px}
+  .payment-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer}
+  .cod{background:#4caf50;color:white}
+  .online{background:#1976d2;color:white}
+
+  #qrWrap{display:none;text-align:center;margin-top:12px}
+  #qrWrap img{width:200px;border-radius:8px}
+
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
+
+  @media(max-width:760px){.products{flex-direction:column;align-items:center}#cart{width:100%;right:-100%}}
 </style>
 </head>
 <body>
 <header>
-  <h2>Homemade Products</h2>
-  <button class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+  <div class="top-actions">
+    <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
+  </div>
+  <h1>Homemade Products</h1>
+  <p>Fresh, tasty, and made with love for your family</p>
 </header>
 
-<div id="products" class="products"></div>
+<main>
+  <div class="hero">
+    <h2>Welcome</h2>
+    <p>Order your favorite homemade snacks easily</p>
+  </div>
 
-<div id="cart">
+  <section class="about">
+    <h3>About Us</h3>
+    <p>We bring you homemade snacks like Pippalu and Murukulu, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p>
+  </section>
+
+  <section class="products" id="products"></section>
+
+  <section id="checkoutArea">
+    <h3>Checkout</h3>
+    <p><strong>Items:</strong> <span id="checkoutItemsSummary"></span></p>
+    <p class="cart-total"><strong>Total: ₹<span id="checkoutTotal">0</span></strong></p>
+
+    <h4>Delivery Details</h4>
+    <label for="c_name">Full Name</label>
+    <input id="c_name" required />
+    <label for="c_phone">Phone (10 digits)</label>
+    <input id="c_phone" maxlength="10" required />
+    <label for="c_email">Email</label>
+    <input id="c_email" required />
+    <label for="c_street">Street</label>
+    <input id="c_street" required />
+    <label for="c_landmark">Landmark</label>
+    <input id="c_landmark" required />
+    <label for="c_village">Village</label>
+    <input id="c_village" required />
+    <label for="c_pincode">Pincode</label>
+    <input id="c_pincode" maxlength="6" required />
+    <label for="c_mandal">Mandal</label>
+    <input id="c_mandal" required />
+    <label for="c_district">District</label>
+    <input id="c_district" required />
+    <label for="c_state">State</label>
+    <input id="c_state" required />
+
+    <div style="margin-top:12px"><strong>Choose Payment</strong></div>
+    <div class="payment-row">
+      <button class="payment-btn cod" onclick="confirmOrder('Cash on Delivery')">Cash on Delivery</button>
+      <button class="payment-btn online" onclick="confirmOrder('Online')">Pay Online</button>
+    </div>
+
+    <div id="qrWrap">
+      <h4>Scan to Pay</h4>
+      <img src="upi-qr.png" alt="Scan to pay" />
+    </div>
+  </section>
+</main>
+
+<aside id="cart">
   <h3>Your Cart</h3>
-  <div id="cartList"></div>
-  <p><strong>Total: ₹<span id="totalPrice">0</span></strong></p>
-  <button id="proceedBtn" onclick="proceedToCheckout()">Proceed to Checkout</button>
-</div>
-
-<div id="checkoutArea" style="display:none;">
-  <h3>Checkout</h3>
-  <div><strong>Items:</strong> <span id="checkoutItemsSummary"></span></div>
-  <div><strong>Total:</strong> ₹<span id="checkoutTotal"></span></div>
-  <input id="c_name" placeholder="Full Name" required>
-  <input id="c_phone" placeholder="Phone Number (10 digits)" required>
-  <input id="c_email" placeholder="Email" required>
-  <input id="c_street" placeholder="Street Details" required>
-  <input id="c_landmark" placeholder="Landmark" required>
-  <input id="c_village" placeholder="Village" required>
-  <input id="c_pincode" placeholder="Pincode" required>
-  <input id="c_mandal" placeholder="Mandal" required>
-  <input id="c_district" placeholder="District" required>
-  <input id="c_state" placeholder="State" required>
-  <div style="margin-top:1rem;">
-    <button onclick="confirmOrder('Cash on Delivery')">Cash on Delivery</button>
-    <button onclick="confirmOrder('Online')">Pay Online</button>
+  <div id="cartList" class="cart-list"></div>
+  <div class="cart-bottom">
+    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
+    <button id="proceedBtn" class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    <button class="close-cart" onclick="toggleCart()">Close</button>
   </div>
-  <div id="qrWrap">
-    <p>📲 Scan & Pay using UPI</p>
-    <img src="upi-qr.jpg" alt="UPI QR">
-    <!-- confirm button will be added dynamically -->
-  </div>
-</div>
+</aside>
 
 <div id="toast"></div>
+
+<footer style="margin-top:40px;padding:30px 12px;background:rgba(0,0,0,0.6);color:#fff;text-align:center;">
+  <p>📞 8790000058 | ✉️ villagetradition55@gmail.com | Hyderabad, India</p>
+  <p>Support: 8790000258</p>
+</footer>
 
 <script>
 const products=[
@@ -95,6 +170,7 @@ function confirmOrder(type){
         dist=$('#c_district').value.trim(),
         state=$('#c_state').value.trim();
 
+  // validations
   if(!name||!phone||!email||!street||!landmark||!village||!pin||!mandal||!dist||!state){showToast('⚠️ Please fill all fields');return;}
   if(!/^\d{10}$/.test(phone)){showToast('⚠️ Enter valid 10 digit phone');return;}
   if(!/^\S+@\S+\.\S+$/.test(email)){showToast('⚠️ Enter valid email');return;}
@@ -104,25 +180,6 @@ function confirmOrder(type){
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
   const addr=`${street}, ${landmark}, ${village}, ${mandal}, ${dist}, ${state}, ${pin}`;
 
-  if(type==='Cash on Delivery'){
-    sendOrder({name,phone,email,addr,orderItems,total,type});
-  }
-
-  if(type==='Online'){
-    $('#qrWrap').style.display='block';
-    if(!$('#confirmPayBtn')){
-      const btn=document.createElement('button');
-      btn.id='confirmPayBtn';
-      btn.textContent='✅ I Have Paid, Place Order';
-      btn.style.cssText="margin-top:12px;padding:10px;border:none;border-radius:8px;background:#4caf50;color:#fff;cursor:pointer;width:100%";
-      btn.onclick=()=>sendOrder({name,phone,email,addr,orderItems,total,type});
-      $('#qrWrap').appendChild(btn);
-    }
-    showToast('📲 Please scan and pay, then confirm');
-  }
-}
-
-function sendOrder({name,phone,email,addr,orderItems,total,type}){
   const fd=new FormData();
   fd.append("name",name);
   fd.append("phone",phone);
@@ -137,11 +194,12 @@ function sendOrder({name,phone,email,addr,orderItems,total,type}){
     if(r.ok){
       alert("✅ Order placed! We will contact you soon.");
       clearAfterOrder();
+      if(type==='Online') $('#qrWrap').style.display='block';
     } else {alert("⚠️ Failed to send order. Try again later.");}
   }).catch(()=>alert("⚠️ Network error while sending order"));
 }
 
-function clearAfterOrder(){cart=[];updateCartUI();$('#checkoutArea').style.display='none';$('#qrWrap').style.display='none';document.querySelectorAll('#checkoutArea input').forEach(i=>i.value='')}
+function clearAfterOrder(){cart=[];updateCartUI();$('#checkoutArea').style.display='none';document.querySelectorAll('#checkoutArea input').forEach(i=>i.value='')}
 renderProducts();updateCartUI();
 </script>
 </body>
