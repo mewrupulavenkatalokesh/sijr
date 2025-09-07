@@ -96,6 +96,7 @@
     <input id="c_email" placeholder="Email" required />
     <input id="c_street" placeholder="Street" required />
     <input id="c_landmark" placeholder="Landmark" required />
+    <input id="c_village" placeholder="Village" required />
     <input id="c_pincode" placeholder="Pincode" required maxlength="6" />
     <input id="c_mandal" placeholder="Mandal" required />
     <input id="c_district" placeholder="District" required />
@@ -154,20 +155,20 @@ function confirmOrder(type){
         email=$('#c_email').value.trim(),
         street=$('#c_street').value.trim(),
         landmark=$('#c_landmark').value.trim(),
+        village=$('#c_village').value.trim(),
         pin=$('#c_pincode').value.trim(),
         mandal=$('#c_mandal').value.trim(),
         dist=$('#c_district').value.trim(),
         state=$('#c_state').value.trim();
 
   // Validation
-  if(!/^[a-zA-Z\s]+$/.test(name)){showToast('Name must contain letters only');return}
-  if(!/^\d{10}$/.test(phone)){showToast('Phone must be 10 digits');return}
+  if(!/^\d{10}$/.test(phone)){showToast('Phone must be exactly 10 digits');return}
   if(!/^\d+$/.test(pin)){showToast('Pincode must be numbers only');return}
-  if(!name||!phone||!email||!street||!landmark||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
+  if(!name||!phone||!email||!street||!landmark||!village||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
 
   const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const addr=`${street}, ${landmark}, ${mandal}, ${dist}, ${state}, ${pin}`;
+  const addr=`${street}, ${landmark}, ${village}, ${mandal}, ${dist}, ${state}, ${pin}`;
 
   fetch("https://formspree.io/f/xvgbdqpz", {
     method:"POST",
