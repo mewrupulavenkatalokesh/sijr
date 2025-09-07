@@ -1,268 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Homemade Snacks — Pippalu & Murukulu</title>
-  <meta name="description" content="Order fresh homemade Pippalu & Murukulu. Scan UPI or send order via WhatsApp." />
-  <style>
-    :root{--brand:#2f855a;--muted:#6b7280;--bg:#f8fafc}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:#111}
-    header{background:var(--brand);color:#fff;padding:18px;text-align:center;font-weight:700}
-    .wrap{max-width:980px;margin:18px auto;padding:0 16px}
-    .grid{display:grid;gap:18px}
-    @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
-    .card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,.06)}
-    .card img{width:100%;height:220px;object-fit:cover;border-radius:8px}
-    h2,h3{margin:8px 0;color:#234e2a}
-    .price{font-weight:700}
-    .muted{color:var(--muted)}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;border:2px solid var(--brand);background:var(--brand);color:#fff}
-    .btn.alt{background:#fff;color:var(--brand)}
-    /* Checkout */
-    .checkout{display:grid;gap:18px;margin-top:18px}
-    @media(min-width:900px){.checkout{grid-template-columns:1fr 360px}}
-    .box{background:#fff;border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(2,6,23,.06)}
-    label{display:block;margin:8px 0 6px;font-weight:600}
-    input[type="text"], input[type="email"], input[type="tel"], textarea, select {
-      width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-bottom:8px
-    }
-    .row{display:flex;gap:8px}
-    .row input{flex:1}
-    .order-summary p{margin:8px 0}
-    .total{font-size:18px;font-weight:800;margin-top:12px}
-    .qr img{width:200px;max-width:100%}
-    .notice{font-size:13px;color:var(--muted)}
-    /* overlay modal */
-    .overlay{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:999}
-    .modal{background:#fff;border-radius:10px;padding:18px;min-width:280px;max-width:420px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
-    .modal.success{border-left:6px solid #16a34a}
-    .modal.error{border-left:6px solid #dc2626}
-    .modal h4{margin:0 0 8px}
-    .modal p{margin:0 0 12px}
-    .small{font-size:13px;color:#555}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Homemade Products — Shop</title>
+<style>
+  :root{
+    --green:#2e7d32;
+    --accent:#4CAF50;
+    --muted:#666;
+    --card-bg:#fff;
+  }
+  body{
+    margin:0;font-family:system-ui,Arial,sans-serif;
+    background: url("background.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color:#222;
+  }
+  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);position:sticky;top:0;z-index:50;}
+  header h1{margin:0;font-size:28px;letter-spacing:0.5px}
+  header p{margin:6px 0 0;opacity:0.95}
+  .top-actions{position:absolute; right:18px; top:18px}
+  .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+  main{max-width:1200px;margin:34px auto;padding:0 18px;}
+  .hero{background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.75));border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+  .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
+  .hero p{margin:0;color:var(--muted)}
+  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+  .about h3{color:var(--green);margin:0 0 10px}
+  .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
+  .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
+  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
+  .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
+  .card h4{margin:12px 0 6px;color:var(--green)}
+  .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
+  .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+  .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
+  #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
+  #cart.open{right:0}
+  #cart h3{margin:6px 0 14px;color:var(--green)}
+  .cart-list .item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
+  .cart-list .item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+  .cart-list .info{flex:1;text-align:left}
+  .cart-list .info strong{display:block}
+  .cart-list .qty{width:64px}
+  .cart-bottom{margin-top:14px}
+  .cart-bottom .total{font-weight:700;font-size:18px;margin-bottom:10px}
+  .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
+  .checkout-btn{background:#1976d2;color:#fff}
+  .close-cart{background:#f44336;color:#fff;margin-top:8px}
+  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  #checkoutArea h3{color:var(--green)}
+  #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
+  .payment-row{display:flex;gap:10px;margin-top:12px}
+  .payment-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer}
+  .cod{background:#4caf50;color:white}
+  .online{background:#1976d2;color:white}
+  #qrWrap{display:none;text-align:center;margin-top:12px}
+  #qrWrap img{width:200px;border-radius:8px}
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
+  @media(max-width:760px){.products{flex-direction:column;align-items:center}#cart{width:100%;right:-100%}}
+</style>
 </head>
 <body>
-  <header>Homemade Snacks — Pippalu & Murukulu</header>
-
-  <main class="wrap">
-    <section class="grid">
-      <article class="card">
-        <img src="pippalu.jpg" alt="Pippalu">
-        <h3>Pippalu</h3>
-        <div class="price">₹150 / pack</div>
-        <p class="muted">Crispy, spicy snack — perfect for tea time.</p>
-        <div style="margin-top:10px;">
-          Qty: <input id="qty-pippalu" type="number" min="0" value="0" style="width:80px;padding:8px;border-radius:8px;border:1px solid #ddd">
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="murukulu.jpg" alt="Murukulu">
-        <h3>Murukulu</h3>
-        <div class="price">₹200 / pack</div>
-        <p class="muted">Traditional crunchy Murukulu, small-batch.</p>
-        <div style="margin-top:10px;">
-          Qty: <input id="qty-murukulu" type="number" min="0" value="0" style="width:80px;padding:8px;border-radius:8px;border:1px solid #ddd">
-        </div>
-      </article>
-    </section>
-
-    <section class="checkout">
-      <!-- left: form -->
-      <div class="box">
-        <h2>Checkout</h2>
-
-        <form id="order-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-          <div class="order-summary">
-            <p class="small">Items selected will appear below automatically.</p>
-            <p id="items-list">Items: —</p>
-            <p class="total">Total: ₹<span id="total-amt">0</span></p>
-          </div>
-
-          <label for="name">Full name</label>
-          <input id="name" name="name" type="text" required placeholder="Your name">
-
-          <label for="phone">Phone number</label>
-          <input id="phone" name="phone" type="tel" required placeholder="10-digit mobile number">
-
-          <label for="email">Email (optional)</label>
-          <input id="email" name="email" type="email" placeholder="you@example.com">
-
-          <label for="address">Address</label>
-          <textarea id="address" name="address" rows="3" placeholder="Street, landmark, locality" required></textarea>
-
-          <div class="row">
-            <input id="pincode" name="pincode" type="text" placeholder="Pincode" required>
-            <input id="city" name="city" type="text" placeholder="City" required>
-          </div>
-
-          <label for="payment">Payment method</label>
-          <select id="payment" name="payment_method">
-            <option value="UPI">UPI (Scan QR)</option>
-            <option value="COD">Cash on Delivery</option>
-          </select>
-
-          <label for="note">Note (optional)</label>
-          <input id="note" name="note" type="text" placeholder="Any message for delivery">
-
-          <!-- hidden fields we send to Formspree too -->
-          <input type="hidden" name="items" id="hidden-items">
-          <input type="hidden" name="total" id="hidden-total">
-
-          <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
-            <button type="submit" class="btn">Place Order</button>
-            <a id="btn-pay" class="btn alt" href="#payment-section">Scan & Pay</a>
-          </div>
-          <p class="notice" style="margin-top:12px">After payment by UPI, please share the screenshot to our WhatsApp using the button shown on success.</p>
-        </form>
-      </div>
-
-      <!-- right: payment & QR -->
-      <aside class="box" id="payment-section">
-        <h2>Scan & Pay</h2>
-        <div style="text-align:center" class="qr">
-          <img src="upi-qr.png" alt="UPI QR">
-          <p class="small">Scan with Google Pay / PhonePe / Paytm</p>
-          <p style="margin-top:10px"><strong>UPI ID:</strong> <span id="upi-id">yourupi@bank</span></p>
-        </div>
-
-        <div style="margin-top:18px">
-          <h3>Order contact</h3>
-          <p class="muted">Phone: <a id="contact-phone" href="tel:+919999999999">+91 99999 99999</a></p>
-          <p class="muted">WhatsApp will be used to confirm orders & payment proof.</p>
-        </div>
-      </aside>
-    </section>
-  </main>
-
-  <!-- success/error modal -->
-  <div id="overlay" class="overlay" role="dialog" aria-hidden="true">
-    <div id="modal" class="modal">
-      <h4 id="modal-title">Status</h4>
-      <p id="modal-message"></p>
-      <div style="margin-top:12px;text-align:right">
-        <button id="modal-close" class="btn alt">Close</button>
-      </div>
+  <header>
+    <div class="top-actions">
+      <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
     </div>
+    <h1>Homemade Products</h1>
+    <p>Fresh, tasty, and made with love for your family</p>
+  </header>
+
+<main>
+  <div class="hero">
+    <h2>Welcome</h2>
+    <p>Order your favorite homemade snacks easily</p>
   </div>
 
-  <script>
-    // ====== CONFIG - EDIT THESE ======
-    const FORM_ENDPOINT = "https://formspree.io/f/xvgbdqpz"; // <-- replace with your Formspree endpoint
-    const UPI_TEXT_ID = "yourupi@bank"; // change to your actual UPI ID
-    const CONTACT_PHONE_RAW = "8790609258"; // change to your phone in international digits without '+'
-    // =================================
+  <section class="about">
+    <h3>About Us</h3>
+    <p>We bring you homemade snacks like Pippalu and Murukulu, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p>
+  </section>
 
-    // product prices (INR)
-    const PRICES = { pippalu: 150, murukulu: 200 };
+  <section class="products" id="products"></section>
 
-    // UI elements
-    const qtyP = document.getElementById('qty-pippalu');
-    const qtyM = document.getElementById('qty-murukulu');
-    const itemsList = document.getElementById('items-list');
-    const totalEl = document.getElementById('total-amt');
-    const hiddenItems = document.getElementById('hidden-items');
-    const hiddenTotal = document.getElementById('hidden-total');
-    const upiIdSpan = document.getElementById('upi-id');
-    const contactPhoneAnchor = document.getElementById('contact-phone');
+  <section id="checkoutArea">
+    <h3>Checkout</h3>
+    <p><strong>Items:</strong> <span id="checkoutItemsSummary"></span></p>
+    <p class="cart-total"><strong>Total: ₹<span id="checkoutTotal">0</span></strong></p>
 
-    upiIdSpan.textContent = UPI_TEXT_ID;
-    contactPhoneAnchor.href = "tel:+" + CONTACT_PHONE_RAW;
+    <h4>Delivery Details</h4>
+    <input id="c_name" placeholder="Full Name" required />
+    <input id="c_phone" placeholder="Phone" required />
+    <input id="c_email" placeholder="Email" required />
+    <input id="c_pincode" placeholder="Pincode" required />
+    <input id="c_mandal" placeholder="Mandal" required />
+    <input id="c_district" placeholder="District" required />
+    <input id="c_state" placeholder="State" required />
 
-    function updateOrderPreview(){
-      const q1 = Math.max(0, parseInt(qtyP.value || 0));
-      const q2 = Math.max(0, parseInt(qtyM.value || 0));
-      let items = [];
-      let total = 0;
-      if(q1>0){ items.push(q1 + " × Pippalu (₹" + PRICES.pippalu + ")"); total += q1 * PRICES.pippalu; }
-      if(q2>0){ items.push(q2 + " × Murukulu (₹" + PRICES.murukulu + ")"); total += q2 * PRICES.murukulu; }
-      if(items.length === 0){ itemsList.textContent = "Items: —"; }
-      else { itemsList.textContent = "Items: " + items.join(" • "); }
-      totalEl.textContent = total;
-      hiddenItems.value = items.join(" | ");
-      hiddenTotal.value = total;
-    }
+    <div style="margin-top:12px"><strong>Choose Payment</strong></div>
+    <div class="payment-row">
+      <button class="payment-btn cod" onclick="confirmOrder('Cash on Delivery')">Cash on Delivery</button>
+      <button class="payment-btn online" onclick="confirmOrder('Online')">Pay Online</button>
+    </div>
 
-    qtyP.addEventListener('input', updateOrderPreview);
-    qtyM.addEventListener('input', updateOrderPreview);
-    updateOrderPreview();
+    <div id="qrWrap">
+      <h4>Scan to Pay</h4>
+      <img src="upi-qr.jpg" alt="Scan to pay" />
+      <p style="font-size:14px;color:#555">Scan the QR from your UPI app to complete payment. After successful payment, please inform us (WhatsApp/call).</p>
+    </div>
+  </section>
+</main>
 
-    // modal helpers
-    const overlay = document.getElementById('overlay');
-    const modalTitle = document.getElementById('modal-title');
-    const modalMessage = document.getElementById('modal-message');
-    const modalClose = document.getElementById('modal-close');
-    function showModal(type, title, message){
-      modalTitle.textContent = title;
-      modalMessage.textContent = message;
-      modalClose.textContent = "Close";
-      const modalEl = document.getElementById('modal');
-      modalEl.className = 'modal ' + (type === 'success' ? 'success':'error');
-      overlay.style.display = 'flex';
-      overlay.setAttribute('aria-hidden', 'false');
-    }
-    modalClose.addEventListener('click', ()=>{ overlay.style.display='none'; overlay.setAttribute('aria-hidden','true'); });
+<aside id="cart">
+  <h3>Your Cart</h3>
+  <div id="cartList" class="cart-list"></div>
+  <div class="cart-bottom">
+    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
+    <button id="proceedBtn" class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    <button class="close-cart" onclick="toggleCart()">Close</button>
+  </div>
+</aside>
 
-    // Form submission (AJAX to Formspree)
-    const form = document.getElementById('order-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // validation: ensure at least one item
-      if((parseInt(qtyP.value || 0) + parseInt(qtyM.value || 0)) === 0){
-        showModal('error','No items selected','Please select at least one product (set quantity > 0).');
-        return;
-      }
+<div id="toast"></div>
 
-      const formData = {
-        name: form.name.value.trim(),
-        phone: form.phone.value.trim(),
-        email: form.email.value.trim(),
-        address: form.address.value.trim(),
-        pincode: form.pincode.value.trim(),
-        city: form.city.value.trim(),
-        items: hiddenItems.value,
-        total: hiddenTotal.value,
-        payment_method: form.payment_method.value,
-        note: form.note.value.trim()
-      };
+<footer style="margin-top:40px;padding:30px 12px;background:rgba(0,0,0,0.6);color:#fff;text-align:center;">
+  <p>📞 8790000058 | ✉️ villagetradition55@gmail.com | Hyderabad, India</p>
+  <p>Support: 8790000258</p>
+</footer>
 
-      // basic required fields check
-      if(!formData.name || !formData.phone || !formData.address || !formData.city || !formData.pincode){
-        showModal('error','Missing information','Please fill all required fields (name, phone, address, city, pincode).');
-        return;
-      }
+<script>
+const products=[
+  {id:'pippalu',name:'Pippalu',img:'pippalu.jpg',desc:'Delicious homemade Pippalu with authentic taste.',priceOptions:{'100g':50,'200g':90,'500g':200},badge:'Best Seller'},
+  {id:'murukulu',name:'Murukulu',img:'murukulu.jpg',desc:'Crispy homemade Murukulu made with love.',priceOptions:{'100g':60,'200g':110,'500g':250},badge:'New'}
+];
+let cart=[];
+function $(s){return document.querySelector(s)}
+function showToast(msg,t=1800){const e=$('#toast');e.textContent=msg;e.style.display='block';clearTimeout(e._hide);e._hide=setTimeout(()=>e.style.display='none',t)}
+function renderProducts(){const c=$('#products');c.innerHTML='';products.forEach(p=>{const card=document.createElement('div');card.className='card';card.innerHTML=`${p.badge?`<div class="badge">${p.badge}</div>`:''}<img src="${p.img}"><h4>${p.name}</h4><p>${p.desc}</p><label>Select quantity & price</label><select id="select-${p.id}"><option value="">Select Quantity</option>${Object.entries(p.priceOptions).map(([k,v])=>`<option value="${k} - ${v}">${k} - ₹${v}</option>`).join('')}</select><button class="add" onclick="addToCart('${p.id}')">Add to Cart</button>`;c.appendChild(card)})}
+function addToCart(id){const s=$(`#select-${id}`);if(!s.value){showToast('Please select quantity first');return}const[l,p]=s.value.split(' - ');const price=parseInt(p);const pr=products.find(x=>x.id===id);const ex=cart.find(i=>i.id===id&&i.optionLabel===l);if(ex){ex.qty++}else{cart.push({id:pr.id,name:pr.name,optionLabel:l,price:price,qty:1,img:pr.img})}updateCartUI();showToast(`${pr.name} added`)}
+function updateCartUI(){const l=$('#cartList');l.innerHTML='';let t=0;cart.forEach((it,i)=>{t+=it.price*it.qty;const d=document.createElement('div');d.className='item';d.innerHTML=`<img src="${it.img}"><div class="info"><strong>${it.name}</strong><small>${it.optionLabel} • ₹${it.price}</small></div><div><input class="qty" type="number" value="${it.qty}" min="1" onchange="updateQty(${i},this.value)"><div><button onclick="removeItem(${i})">Remove</button></div></div>`;l.appendChild(d)});$('#totalPrice').textContent=t;$('#cartCount').textContent=cart.reduce((s,i)=>s+i.qty,0);$('#proceedBtn').disabled=cart.length===0}
+function updateQty(i,v){cart[i].qty=parseInt(v)||1;updateCartUI()}
+function removeItem(i){cart.splice(i,1);updateCartUI()}
+function toggleCart(){$('#cart').classList.toggle('open')}
+function proceedToCheckout(){if(cart.length===0){showToast('Cart empty');return}toggleCart();$('#checkoutItemsSummary').textContent=cart.map(it=>`${it.name} (${it.optionLabel}) x ${it.qty}`).join(', ');$('#checkoutTotal').textContent=cart.reduce((s,i)=>s+i.price*i.qty,0);$('#checkoutArea').style.display='block';window.scrollTo({top:$('#checkoutArea').offsetTop-20,behavior:'smooth'})}
 
-      // send to Formspree
-      try{
-        const res = await fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        if(res.ok){
-          showModal('success','Order sent','Thank you! Your order has been sent. Tap "Share on WhatsApp" to send payment proof.');
-          // create WhatsApp share URL with order summary
-          const waMessage = encodeURIComponent(
-            `Hello, I placed an order:\n${formData.items}\nTotal: ₹${formData.total}\nName: ${formData.name}\nPhone: ${formData.phone}\nAddress: ${formData.address}, ${formData.city} - ${formData.pincode}\nPayment: ${formData.payment_method}`
-          );
-          // open WhatsApp share in a new tab when user clicks modal (or offer a link)
-          // We'll create a button in modal for user convenience:
-          modalMessage.innerHTML += "<br/><br/><a id='whalink' class='btn' href='https://wa.me/" + CONTACT_PHONE_RAW + "?text=" + waMessage + "' target='_blank'>Share on WhatsApp</a>";
-          // reset quantities and form (optional)
-          qtyP.value = 0; qtyM.value = 0; updateOrderPreview();
-          form.reset();
-        } else {
-          const text = await res.text();
-          console.error('Formspree error', res.status, text);
-          showModal('error','Failed to send order','Server rejected the request. Please try again or contact us on WhatsApp.');
-        }
-      } catch(err){
-        console.error('Network error', err);
-        showModal('error','Failed to send order','Network error. Please check your internet and try again.');
-      }
-    });
-  </script>
+function confirmOrder(type){
+  const name=$('#c_name').value.trim(),
+        phone=$('#c_phone').value.trim(),
+        email=$('#c_email').value.trim(),
+        pin=$('#c_pincode').value.trim(),
+        mandal=$('#c_mandal').value.trim(),
+        dist=$('#c_district').value.trim(),
+        state=$('#c_state').value.trim();
+  if(!name||!phone||!email||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
+  const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const addr=`${mandal}, ${dist}, ${state}, ${pin}`;
+
+  fetch("https://formspree.io/f/xvgbdqpz", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      name,phone,email,address:addr,order_items:orderItems,order_total:`₹${total}`,payment_method:type
+    })
+  }).then(r=>{
+    if(r.ok){
+      alert("✅ Order placed! We will contact you soon.");
+      clearAfterOrder();
+      if(type==='Online') $('#qrWrap').style.display='block';
+    } else {alert("⚠️ Failed to send order");}
+  }).catch(()=>alert("⚠️ Failed to send order"));
+}
+
+function clearAfterOrder(){cart=[];updateCartUI();$('#checkoutArea').style.display='none';document.querySelectorAll('#checkoutArea input').forEach(i=>i.value='')}
+renderProducts();updateCartUI();
+</script>
 </body>
 </html>
