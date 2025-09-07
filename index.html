@@ -5,29 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Homemade Products — Shop</title>
 <style>
-  :root{
-    --green:#2e7d32;
-    --accent:#4CAF50;
-    --muted:#666;
-    --card-bg:#fff;
-  }
-  body{
-    margin:0;font-family:system-ui,Arial,sans-serif;
-    background: url("background.jpg") no-repeat center center fixed;
-    background-size: cover;
-    color:#222;
-  }
-  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);position:sticky;top:0;z-index:50;}
-  header h1{margin:0;font-size:28px;letter-spacing:0.5px}
+  :root{--green:#2e7d32;--accent:#4CAF50;--muted:#666;--card-bg:#fff;}
+  body{margin:0;font-family:system-ui,Arial,sans-serif;background:#fafafa;color:#222;}
+  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;position:sticky;top:0;z-index:50;}
+  header h1{margin:0;font-size:28px}
   header p{margin:6px 0 0;opacity:0.95}
   .top-actions{position:absolute; right:18px; top:18px}
   .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
   main{max-width:1200px;margin:34px auto;padding:0 18px;}
-  .hero{background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.75));border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+  .hero{background:#fff;border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
   .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
   .hero p{margin:0;color:var(--muted)}
-  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+  .about{margin-top:26px;background:#fff;padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
   .about h3{color:var(--green);margin:0 0 10px}
   .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
   .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
@@ -50,7 +39,7 @@
   .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
   .checkout-btn{background:#1976d2;color:#fff}
   .close-cart{background:#f44336;color:#fff;margin-top:8px}
-  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
   #checkoutArea h3{color:var(--green)}
   #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
   .payment-row{display:flex;gap:10px;margin-top:12px}
@@ -64,13 +53,13 @@
 </style>
 </head>
 <body>
-  <header>
-    <div class="top-actions">
-      <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
-    </div>
-    <h1>Homemade Products</h1>
-    <p>Fresh, tasty, and made with love for your family</p>
-  </header>
+<header>
+  <div class="top-actions">
+    <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
+  </div>
+  <h1>Homemade Products</h1>
+  <p>Fresh, tasty, and made with love for your family</p>
+</header>
 
 <main>
   <div class="hero">
@@ -92,9 +81,12 @@
 
     <h4>Delivery Details</h4>
     <input id="c_name" placeholder="Full Name" required />
-    <input id="c_phone" placeholder="Phone" required />
+    <input id="c_phone" placeholder="Phone (10 digits)" maxlength="10" required />
     <input id="c_email" placeholder="Email" required />
-    <input id="c_pincode" placeholder="Pincode" required />
+    <input id="c_street" placeholder="Street" required />
+    <input id="c_landmark" placeholder="Landmark" required />
+    <input id="c_village" placeholder="Village" required />
+    <input id="c_pincode" placeholder="Pincode" maxlength="6" required />
     <input id="c_mandal" placeholder="Mandal" required />
     <input id="c_district" placeholder="District" required />
     <input id="c_state" placeholder="State" required />
@@ -107,8 +99,7 @@
 
     <div id="qrWrap">
       <h4>Scan to Pay</h4>
-      <img src="upi-qr.jpg" alt="Scan to pay" />
-      <p style="font-size:14px;color:#555">Scan the QR from your UPI app to complete payment. After successful payment, please inform us (WhatsApp/call).</p>
+      <img src="upi-qr.png" alt="Scan to pay" />
     </div>
   </section>
 </main>
@@ -150,22 +141,35 @@ function confirmOrder(type){
   const name=$('#c_name').value.trim(),
         phone=$('#c_phone').value.trim(),
         email=$('#c_email').value.trim(),
+        street=$('#c_street').value.trim(),
+        landmark=$('#c_landmark').value.trim(),
+        village=$('#c_village').value.trim(),
         pin=$('#c_pincode').value.trim(),
         mandal=$('#c_mandal').value.trim(),
         dist=$('#c_district').value.trim(),
         state=$('#c_state').value.trim();
-  if(!name||!phone||!email||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
+
+  if(!name||!phone||!email||!street||!landmark||!village||!pin||!mandal||!dist||!state){
+    showToast('Fill all fields');return;
+  }
+  if(!/^\d{10}$/.test(phone)){showToast('Enter valid 10 digit phone');return;}
+  if(!/^\d{6}$/.test(pin)){showToast('Enter valid 6 digit pincode');return;}
+
   const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const addr=`${mandal}, ${dist}, ${state}, ${pin}`;
+  const addr=`${street}, ${landmark}, ${village}, ${mandal}, ${dist}, ${state}, ${pin}`;
 
-  fetch("https://formspree.io/f/xvgbdqpz", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      name,phone,email,address:addr,order_items:orderItems,order_total:`₹${total}`,payment_method:type
-    })
-  }).then(r=>{
+  const fd=new FormData();
+  fd.append("name",name);
+  fd.append("phone",phone);
+  fd.append("email",email);
+  fd.append("address",addr);
+  fd.append("order_items",orderItems);
+  fd.append("order_total","₹"+total);
+  fd.append("payment_method",type);
+
+  fetch("https://formspree.io/f/xvgbdqpz",{method:"POST",body:fd,headers:{'Accept':'application/json'}})
+  .then(r=>{
     if(r.ok){
       alert("✅ Order placed! We will contact you soon.");
       clearAfterOrder();
