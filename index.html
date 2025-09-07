@@ -5,39 +5,37 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Homemade Products — Shop</title>
 <style>
-  :root{
-    --green:#2e7d32;
-    --accent:#4CAF50;
-    --muted:#666;
-    --card-bg:#fff;
-  }
-  body{
-    margin:0;font-family:system-ui,Arial,sans-serif;
-    background: url("background.jpg") no-repeat center center fixed;
-    background-size: cover;
-    color:#222;
-  }
-  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);position:sticky;top:0;z-index:50;}
+  :root{--green:#2e7d32;--accent:#4CAF50;--muted:#666;--card-bg:#fff;}
+  body{margin:0;font-family:system-ui,Arial,sans-serif;
+    background:url("background.jpg") no-repeat center center fixed;
+    background-size:cover;color:#222;}
+  header{background:rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,0.2);position:sticky;top:0;z-index:50;}
   header h1{margin:0;font-size:28px;letter-spacing:0.5px}
   header p{margin:6px 0 0;opacity:0.95}
   .top-actions{position:absolute; right:18px; top:18px}
   .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
   main{max-width:1200px;margin:34px auto;padding:0 18px;}
-  .hero{background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.75));border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+  .hero{background:linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.75));
+    border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
   .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
   .hero p{margin:0;color:var(--muted)}
-  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08)}
   .about h3{color:var(--green);margin:0 0 10px}
   .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
-  .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
-  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
+  .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
+  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;
+    padding:6px 8px;border-radius:8px;font-size:12px}
   .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
   .card h4{margin:12px 0 6px;color:var(--green)}
   .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
   .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
-  .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
-  #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
+  .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);
+    color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
+  #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;
+    box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
   #cart.open{right:0}
   #cart h3{margin:6px 0 14px;color:var(--green)}
   .cart-list .item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
@@ -50,7 +48,8 @@
   .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
   .checkout-btn{background:#1976d2;color:#fff}
   .close-cart{background:#f44336;color:#fff;margin-top:8px}
-  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);
+    padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
   #checkoutArea h3{color:var(--green)}
   #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
   .payment-row{display:flex;gap:10px;margin-top:12px}
@@ -59,7 +58,8 @@
   .online{background:#1976d2;color:white}
   #qrWrap{display:none;text-align:center;margin-top:12px}
   #qrWrap img{width:200px;border-radius:8px}
-  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);
+    color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
   @media(max-width:760px){.products{flex-direction:column;align-items:center}#cart{width:100%;right:-100%}}
 </style>
 </head>
@@ -92,9 +92,11 @@
 
     <h4>Delivery Details</h4>
     <input id="c_name" placeholder="Full Name" required />
-    <input id="c_phone" placeholder="Phone" required />
+    <input id="c_phone" placeholder="Phone (10 digits)" required maxlength="10" />
     <input id="c_email" placeholder="Email" required />
-    <input id="c_pincode" placeholder="Pincode" required />
+    <input id="c_street" placeholder="Street" required />
+    <input id="c_landmark" placeholder="Landmark" required />
+    <input id="c_pincode" placeholder="Pincode" required maxlength="6" />
     <input id="c_mandal" placeholder="Mandal" required />
     <input id="c_district" placeholder="District" required />
     <input id="c_state" placeholder="State" required />
@@ -150,14 +152,22 @@ function confirmOrder(type){
   const name=$('#c_name').value.trim(),
         phone=$('#c_phone').value.trim(),
         email=$('#c_email').value.trim(),
+        street=$('#c_street').value.trim(),
+        landmark=$('#c_landmark').value.trim(),
         pin=$('#c_pincode').value.trim(),
         mandal=$('#c_mandal').value.trim(),
         dist=$('#c_district').value.trim(),
         state=$('#c_state').value.trim();
-  if(!name||!phone||!email||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
+
+  // Validation
+  if(!/^[a-zA-Z\s]+$/.test(name)){showToast('Name must contain letters only');return}
+  if(!/^\d{10}$/.test(phone)){showToast('Phone must be 10 digits');return}
+  if(!/^\d+$/.test(pin)){showToast('Pincode must be numbers only');return}
+  if(!name||!phone||!email||!street||!landmark||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
+
   const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const addr=`${mandal}, ${dist}, ${state}, ${pin}`;
+  const addr=`${street}, ${landmark}, ${mandal}, ${dist}, ${state}, ${pin}`;
 
   fetch("https://formspree.io/f/xvgbdqpz", {
     method:"POST",
