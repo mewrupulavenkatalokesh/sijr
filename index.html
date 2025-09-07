@@ -7,17 +7,21 @@
 <style>
   :root{--green:#2e7d32;--accent:#4CAF50;--muted:#666;--card-bg:#fff;}
   body{margin:0;font-family:system-ui,Arial,sans-serif;background:#fafafa;color:#222;}
+
   header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;position:sticky;top:0;z-index:50;}
   header h1{margin:0;font-size:28px}
   header p{margin:6px 0 0;opacity:0.95}
   .top-actions{position:absolute; right:18px; top:18px}
   .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+
   main{max-width:1200px;margin:34px auto;padding:0 18px;}
   .hero{background:#fff;border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
   .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
   .hero p{margin:0;color:var(--muted)}
+
   .about{margin-top:26px;background:#fff;padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
   .about h3{color:var(--green);margin:0 0 10px}
+
   .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
   .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
   .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
@@ -26,6 +30,7 @@
   .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
   .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
   .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
+
   #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
   #cart.open{right:0}
   #cart h3{margin:6px 0 14px;color:var(--green)}
@@ -39,16 +44,22 @@
   .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
   .checkout-btn{background:#1976d2;color:#fff}
   .close-cart{background:#f44336;color:#fff;margin-top:8px}
+
   #checkoutArea{display:none;max-width:740px;margin:28px auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
   #checkoutArea h3{color:var(--green)}
-  #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
+  #checkoutArea label{display:block;margin-top:10px;font-weight:600;color:#333}
+  #checkoutArea input{width:100%;padding:10px;margin-top:4px;border-radius:8px;border:1px solid #ddd}
+
   .payment-row{display:flex;gap:10px;margin-top:12px}
   .payment-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer}
   .cod{background:#4caf50;color:white}
   .online{background:#1976d2;color:white}
+
   #qrWrap{display:none;text-align:center;margin-top:12px}
   #qrWrap img{width:200px;border-radius:8px}
+
   #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
+
   @media(max-width:760px){.products{flex-direction:column;align-items:center}#cart{width:100%;right:-100%}}
 </style>
 </head>
@@ -80,16 +91,26 @@
     <p class="cart-total"><strong>Total: ₹<span id="checkoutTotal">0</span></strong></p>
 
     <h4>Delivery Details</h4>
-    <input id="c_name" placeholder="Full Name" required />
-    <input id="c_phone" placeholder="Phone (10 digits)" maxlength="10" required />
-    <input id="c_email" placeholder="Email" required />
-    <input id="c_street" placeholder="Street" required />
-    <input id="c_landmark" placeholder="Landmark" required />
-    <input id="c_village" placeholder="Village" required />
-    <input id="c_pincode" placeholder="Pincode" maxlength="6" required />
-    <input id="c_mandal" placeholder="Mandal" required />
-    <input id="c_district" placeholder="District" required />
-    <input id="c_state" placeholder="State" required />
+    <label for="c_name">Full Name</label>
+    <input id="c_name" required />
+    <label for="c_phone">Phone (10 digits)</label>
+    <input id="c_phone" maxlength="10" required />
+    <label for="c_email">Email</label>
+    <input id="c_email" required />
+    <label for="c_street">Street</label>
+    <input id="c_street" required />
+    <label for="c_landmark">Landmark</label>
+    <input id="c_landmark" required />
+    <label for="c_village">Village</label>
+    <input id="c_village" required />
+    <label for="c_pincode">Pincode</label>
+    <input id="c_pincode" maxlength="6" required />
+    <label for="c_mandal">Mandal</label>
+    <input id="c_mandal" required />
+    <label for="c_district">District</label>
+    <input id="c_district" required />
+    <label for="c_state">State</label>
+    <input id="c_state" required />
 
     <div style="margin-top:12px"><strong>Choose Payment</strong></div>
     <div class="payment-row">
@@ -128,7 +149,7 @@ const products=[
 ];
 let cart=[];
 function $(s){return document.querySelector(s)}
-function showToast(msg,t=1800){const e=$('#toast');e.textContent=msg;e.style.display='block';clearTimeout(e._hide);e._hide=setTimeout(()=>e.style.display='none',t)}
+function showToast(msg,t=2000){const e=$('#toast');e.textContent=msg;e.style.display='block';clearTimeout(e._hide);e._hide=setTimeout(()=>e.style.display='none',t)}
 function renderProducts(){const c=$('#products');c.innerHTML='';products.forEach(p=>{const card=document.createElement('div');card.className='card';card.innerHTML=`${p.badge?`<div class="badge">${p.badge}</div>`:''}<img src="${p.img}"><h4>${p.name}</h4><p>${p.desc}</p><label>Select quantity & price</label><select id="select-${p.id}"><option value="">Select Quantity</option>${Object.entries(p.priceOptions).map(([k,v])=>`<option value="${k} - ${v}">${k} - ₹${v}</option>`).join('')}</select><button class="add" onclick="addToCart('${p.id}')">Add to Cart</button>`;c.appendChild(card)})}
 function addToCart(id){const s=$(`#select-${id}`);if(!s.value){showToast('Please select quantity first');return}const[l,p]=s.value.split(' - ');const price=parseInt(p);const pr=products.find(x=>x.id===id);const ex=cart.find(i=>i.id===id&&i.optionLabel===l);if(ex){ex.qty++}else{cart.push({id:pr.id,name:pr.name,optionLabel:l,price:price,qty:1,img:pr.img})}updateCartUI();showToast(`${pr.name} added`)}
 function updateCartUI(){const l=$('#cartList');l.innerHTML='';let t=0;cart.forEach((it,i)=>{t+=it.price*it.qty;const d=document.createElement('div');d.className='item';d.innerHTML=`<img src="${it.img}"><div class="info"><strong>${it.name}</strong><small>${it.optionLabel} • ₹${it.price}</small></div><div><input class="qty" type="number" value="${it.qty}" min="1" onchange="updateQty(${i},this.value)"><div><button onclick="removeItem(${i})">Remove</button></div></div>`;l.appendChild(d)});$('#totalPrice').textContent=t;$('#cartCount').textContent=cart.reduce((s,i)=>s+i.qty,0);$('#proceedBtn').disabled=cart.length===0}
@@ -149,11 +170,11 @@ function confirmOrder(type){
         dist=$('#c_district').value.trim(),
         state=$('#c_state').value.trim();
 
-  if(!name||!phone||!email||!street||!landmark||!village||!pin||!mandal||!dist||!state){
-    showToast('Fill all fields');return;
-  }
-  if(!/^\d{10}$/.test(phone)){showToast('Enter valid 10 digit phone');return;}
-  if(!/^\d{6}$/.test(pin)){showToast('Enter valid 6 digit pincode');return;}
+  // validations
+  if(!name||!phone||!email||!street||!landmark||!village||!pin||!mandal||!dist||!state){showToast('⚠️ Please fill all fields');return;}
+  if(!/^\d{10}$/.test(phone)){showToast('⚠️ Enter valid 10 digit phone');return;}
+  if(!/^\S+@\S+\.\S+$/.test(email)){showToast('⚠️ Enter valid email');return;}
+  if(!/^\d{6}$/.test(pin)){showToast('⚠️ Enter valid 6 digit pincode');return;}
 
   const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
@@ -174,8 +195,8 @@ function confirmOrder(type){
       alert("✅ Order placed! We will contact you soon.");
       clearAfterOrder();
       if(type==='Online') $('#qrWrap').style.display='block';
-    } else {alert("⚠️ Failed to send order");}
-  }).catch(()=>alert("⚠️ Failed to send order"));
+    } else {alert("⚠️ Failed to send order. Try again later.");}
+  }).catch(()=>alert("⚠️ Network error while sending order"));
 }
 
 function clearAfterOrder(){cart=[];updateCartUI();$('#checkoutArea').style.display='none';document.querySelectorAll('#checkoutArea input').forEach(i=>i.value='')}
