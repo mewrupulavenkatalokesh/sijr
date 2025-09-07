@@ -1,181 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Homemade Products — Shop</title>
-<style>
-  :root{
-    --green:#2e7d32;
-    --accent:#4CAF50;
-    --muted:#666;
-    --card-bg:#fff;
-  }
-  body{
-    margin:0;font-family:system-ui,Arial,sans-serif;
-    background: url("background.jpg") no-repeat center center fixed;
-    background-size: cover;
-    color:#222;
-  }
-  header{background: rgba(18,77,30,0.92);color:#fff;padding:28px 20px;text-align:center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);position:sticky;top:0;z-index:50;}
-  header h1{margin:0;font-size:28px;letter-spacing:0.5px}
-  header p{margin:6px 0 0;opacity:0.95}
-  .top-actions{position:absolute; right:18px; top:18px}
-  .cart-btn{background:#e3a60b;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
-  main{max-width:1200px;margin:34px auto;padding:0 18px;}
-  .hero{background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.75));border-radius:12px;padding:34px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15);}
-  .hero h2{color:var(--green);margin:0 0 8px;font-size:34px}
-  .hero p{margin:0;color:var(--muted)}
-  .about{margin-top:26px;background:rgba(255,255,255,0.95);padding:22px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
-  .about h3{color:var(--green);margin:0 0 10px}
-  .products{display:flex;flex-wrap:wrap;gap:26px;justify-content:center;margin-top:28px}
-  .card{width:320px;background:var(--card-bg);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-align:center;position:relative;}
-  .badge{position:absolute;left:12px;top:12px;background:#ff8404;color:#fff;padding:6px 8px;border-radius:8px;font-size:12px}
-  .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
-  .card h4{margin:12px 0 6px;color:var(--green)}
-  .card p{color:var(--muted);font-size:14px;margin:0 0 12px}
-  .card select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
-  .card .add{margin-top:12px;padding:12px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-weight:600;width:100%}
-  #cart{position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-6px 0 28px rgba(0,0,0,0.2);transition:right .28s;z-index:90;padding:18px 16px;overflow:auto}
-  #cart.open{right:0}
-  #cart h3{margin:6px 0 14px;color:var(--green)}
-  .cart-list .item{display:flex;gap:10px;align-items:center;border-bottom:1px solid #eee;padding:10px 0}
-  .cart-list .item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
-  .cart-list .info{flex:1;text-align:left}
-  .cart-list .info strong{display:block}
-  .cart-list .qty{width:64px}
-  .cart-bottom{margin-top:14px}
-  .cart-bottom .total{font-weight:700;font-size:18px;margin-bottom:10px}
-  .cart-bottom button{width:100%;padding:12px;border-radius:8px;border:none;cursor:pointer}
-  .checkout-btn{background:#1976d2;color:#fff}
-  .close-cart{background:#f44336;color:#fff;margin-top:8px}
-  #checkoutArea{display:none;max-width:740px;margin:28px auto;background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
-  #checkoutArea h3{color:var(--green)}
-  #checkoutArea input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ddd}
-  .payment-row{display:flex;gap:10px;margin-top:12px}
-  .payment-btn{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer}
-  .cod{background:#4caf50;color:white}
-  .online{background:#1976d2;color:white}
-  #qrWrap{display:none;text-align:center;margin-top:12px}
-  #qrWrap img{width:200px;border-radius:8px}
-  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:rgba(0,0,0,0.8);color:#fff;padding:12px 18px;border-radius:8px;display:none;z-index:999}
-  @media(max-width:760px){.products{flex-direction:column;align-items:center}#cart{width:100%;right:-100%}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Homemade Products — Shop</title>
+  <style>
+    :root{
+      --green:#2e7d32;
+      --accent:#4CAF50;
+      --muted:#666;
+      --card-bg:#fff;
+    }
+    body{
+      margin:0;font-family:system-ui, sans-serif;background:#f9f9f9;color:#333;
+    }
+    header{
+      background:var(--green);color:#fff;padding:1rem;text-align:center;
+    }
+    h1{margin:0;font-size:1.5rem;}
+    main{padding:1rem;max-width:700px;margin:auto;}
+    .product{
+      background:var(--card-bg);margin:1rem 0;padding:1rem;border-radius:12px;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);display:flex;align-items:center;gap:1rem;
+    }
+    .product img{width:100px;border-radius:8px;}
+    .product button{
+      background:var(--accent);border:0;padding:.5rem 1rem;color:white;border-radius:8px;cursor:pointer;
+    }
+    #cart{margin-top:2rem;}
+    #cart ul{list-style:none;padding:0;}
+    #cart li{margin:.5rem 0;}
+    .hidden{display:none;}
+    form{
+      background:var(--card-bg);padding:1rem;margin-top:1rem;border-radius:12px;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);
+    }
+    form input, form textarea{
+      width:100%;padding:.5rem;margin:.3rem 0;border:1px solid #ccc;border-radius:6px;
+    }
+    .pay-btns button{
+      width:48%;padding:1rem;font-size:1rem;border:0;border-radius:12px;cursor:pointer;
+    }
+    .cod{background:var(--green);color:white;}
+    .online{background:#1976d2;color:white;}
+    .success{color:green;font-weight:bold;text-align:center;margin-top:1rem;}
+    .error{color:red;font-weight:bold;text-align:center;margin-top:1rem;}
+  </style>
 </head>
 <body>
   <header>
-    <div class="top-actions">
-      <button class="cart-btn" onclick="toggleCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
-    </div>
     <h1>Homemade Products</h1>
     <p>Fresh, tasty, and made with love for your family</p>
   </header>
-
-<main>
-  <div class="hero">
-    <h2>Welcome</h2>
-    <p>Order your favorite homemade snacks easily</p>
-  </div>
-
-  <section class="about">
-    <h3>About Us</h3>
-    <p>We bring you homemade snacks like Pippalu and Murukulu, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p>
-  </section>
-
-  <section class="products" id="products"></section>
-
-  <section id="checkoutArea">
-    <h3>Checkout</h3>
-    <p><strong>Items:</strong> <span id="checkoutItemsSummary"></span></p>
-    <p class="cart-total"><strong>Total: ₹<span id="checkoutTotal">0</span></strong></p>
-
-    <h4>Delivery Details</h4>
-    <input id="c_name" placeholder="Full Name" required />
-    <input id="c_phone" placeholder="Phone" required />
-    <input id="c_email" placeholder="Email" required />
-    <input id="c_pincode" placeholder="Pincode" required />
-    <input id="c_mandal" placeholder="Mandal" required />
-    <input id="c_district" placeholder="District" required />
-    <input id="c_state" placeholder="State" required />
-
-    <div style="margin-top:12px"><strong>Choose Payment</strong></div>
-    <div class="payment-row">
-      <button class="payment-btn cod" onclick="confirmOrder('Cash on Delivery')">Cash on Delivery</button>
-      <button class="payment-btn online" onclick="confirmOrder('Online')">Pay Online</button>
+  <main>
+    <div class="product">
+      <img src="murukulu.jpg" alt="Murukulu">
+      <div>
+        <h3>Murukulu (200g)</h3>
+        <p>₹100</p>
+        <button onclick="addToCart('Murukulu',100)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="pippalu.jpg" alt="Pippalu">
+      <div>
+        <h3>Pippalu (200g)</h3>
+        <p>₹90</p>
+        <button onclick="addToCart('Pippalu',90)">Add to Cart</button>
+      </div>
     </div>
 
-    <div id="qrWrap">
-      <h4>Scan to Pay</h4>
-      <img src="upi-qr.jpg" alt="Scan to pay" />
-      <p style="font-size:14px;color:#555">Scan the QR from your UPI app to complete payment. After successful payment, please inform us (WhatsApp/call).</p>
-    </div>
-  </section>
-</main>
+    <section id="cart">
+      <h2>Cart</h2>
+      <ul id="cartItems"></ul>
+      <p id="total"></p>
+      <button onclick="checkout()">Checkout</button>
+    </section>
 
-<aside id="cart">
-  <h3>Your Cart</h3>
-  <div id="cartList" class="cart-list"></div>
-  <div class="cart-bottom">
-    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
-    <button id="proceedBtn" class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
-    <button class="close-cart" onclick="toggleCart()">Close</button>
-  </div>
-</aside>
+    <form id="orderForm" class="hidden">
+      <h2>Checkout</h2>
+      <div id="orderSummary"></div>
+      <h3>Delivery Details</h3>
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="tel" id="phone" placeholder="Phone (10 digits)" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="pincode" placeholder="Pincode" required>
+      <input type="text" id="street" placeholder="Street / Area" required>
+      <input type="text" id="city" placeholder="City" required>
+      <input type="text" id="state" placeholder="State" required>
+      
+      <h3>Choose Payment</h3>
+      <div class="pay-btns">
+        <button type="button" class="cod" onclick="submitOrder('Cash on Delivery')">Cash on Delivery</button>
+        <button type="button" class="online" onclick="submitOrder('Online Payment')">Pay Online</button>
+      </div>
+      <div id="responseMessage"></div>
+    </form>
+  </main>
 
-<div id="toast"></div>
+  <script>
+    let cart=[];
+    function addToCart(name,price){
+      cart.push({name,price});
+      displayCart();
+    }
+    function displayCart(){
+      let cartItems=document.getElementById('cartItems');
+      cartItems.innerHTML="";
+      let total=0;
+      cart.forEach(item=>{
+        let li=document.createElement('li');
+        li.textContent=`${item.name} - ₹${item.price}`;
+        cartItems.appendChild(li);
+        total+=item.price;
+      });
+      document.getElementById('total').textContent="Total: ₹"+total;
+    }
+    function checkout(){
+      if(cart.length===0){alert("Cart is empty");return;}
+      document.getElementById('orderForm').classList.remove('hidden');
+      let summary="<h4>Items:</h4><ul>";
+      let total=0;
+      cart.forEach(item=>{
+        summary+=`<li>${item.name} - ₹${item.price}</li>`;
+        total+=item.price;
+      });
+      summary+=`</ul><p><b>Total: ₹${total}</b></p>`;
+      document.getElementById('orderSummary').innerHTML=summary;
+    }
+    async function submitOrder(paymentMethod){
+      const phone=document.getElementById('phone').value.trim();
+      if(!/^\d{10}$/.test(phone)){
+        document.getElementById('responseMessage').innerHTML="<p class='error'>❌ Phone number must be exactly 10 digits.</p>";
+        return;
+      }
 
-<footer style="margin-top:40px;padding:30px 12px;background:rgba(0,0,0,0.6);color:#fff;text-align:center;">
-  <p>📞 8790000058 | ✉️ villagetradition55@gmail.com | Hyderabad, India</p>
-  <p>Support: 8790000258</p>
-</footer>
-
-<script>
-const products=[
-  {id:'pippalu',name:'Pippalu',img:'pippalu.jpg',desc:'Delicious homemade Pippalu with authentic taste.',priceOptions:{'100g':50,'200g':90,'500g':200},badge:'Best Seller'},
-  {id:'murukulu',name:'Murukulu',img:'murukulu.jpg',desc:'Crispy homemade Murukulu made with love.',priceOptions:{'100g':60,'200g':110,'500g':250},badge:'New'}
-];
-let cart=[];
-function $(s){return document.querySelector(s)}
-function showToast(msg,t=1800){const e=$('#toast');e.textContent=msg;e.style.display='block';clearTimeout(e._hide);e._hide=setTimeout(()=>e.style.display='none',t)}
-function renderProducts(){const c=$('#products');c.innerHTML='';products.forEach(p=>{const card=document.createElement('div');card.className='card';card.innerHTML=`${p.badge?`<div class="badge">${p.badge}</div>`:''}<img src="${p.img}"><h4>${p.name}</h4><p>${p.desc}</p><label>Select quantity & price</label><select id="select-${p.id}"><option value="">Select Quantity</option>${Object.entries(p.priceOptions).map(([k,v])=>`<option value="${k} - ${v}">${k} - ₹${v}</option>`).join('')}</select><button class="add" onclick="addToCart('${p.id}')">Add to Cart</button>`;c.appendChild(card)})}
-function addToCart(id){const s=$(`#select-${id}`);if(!s.value){showToast('Please select quantity first');return}const[l,p]=s.value.split(' - ');const price=parseInt(p);const pr=products.find(x=>x.id===id);const ex=cart.find(i=>i.id===id&&i.optionLabel===l);if(ex){ex.qty++}else{cart.push({id:pr.id,name:pr.name,optionLabel:l,price:price,qty:1,img:pr.img})}updateCartUI();showToast(`${pr.name} added`)}
-function updateCartUI(){const l=$('#cartList');l.innerHTML='';let t=0;cart.forEach((it,i)=>{t+=it.price*it.qty;const d=document.createElement('div');d.className='item';d.innerHTML=`<img src="${it.img}"><div class="info"><strong>${it.name}</strong><small>${it.optionLabel} • ₹${it.price}</small></div><div><input class="qty" type="number" value="${it.qty}" min="1" onchange="updateQty(${i},this.value)"><div><button onclick="removeItem(${i})">Remove</button></div></div>`;l.appendChild(d)});$('#totalPrice').textContent=t;$('#cartCount').textContent=cart.reduce((s,i)=>s+i.qty,0);$('#proceedBtn').disabled=cart.length===0}
-function updateQty(i,v){cart[i].qty=parseInt(v)||1;updateCartUI()}
-function removeItem(i){cart.splice(i,1);updateCartUI()}
-function toggleCart(){$('#cart').classList.toggle('open')}
-function proceedToCheckout(){if(cart.length===0){showToast('Cart empty');return}toggleCart();$('#checkoutItemsSummary').textContent=cart.map(it=>`${it.name} (${it.optionLabel}) x ${it.qty}`).join(', ');$('#checkoutTotal').textContent=cart.reduce((s,i)=>s+i.price*i.qty,0);$('#checkoutArea').style.display='block';window.scrollTo({top:$('#checkoutArea').offsetTop-20,behavior:'smooth'})}
-
-function confirmOrder(type){
-  const name=$('#c_name').value.trim(),
-        phone=$('#c_phone').value.trim(),
-        email=$('#c_email').value.trim(),
-        pin=$('#c_pincode').value.trim(),
-        mandal=$('#c_mandal').value.trim(),
-        dist=$('#c_district').value.trim(),
-        state=$('#c_state').value.trim();
-  if(!name||!phone||!email||!pin||!mandal||!dist||!state){showToast('Fill all fields');return}
-  const orderItems=cart.map(i=>`${i.name} (${i.optionLabel}) x ${i.qty} = ₹${i.price*i.qty}`).join("\n");
-  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const addr=`${mandal}, ${dist}, ${state}, ${pin}`;
-
-  fetch("https://formspree.io/f/xvgbdqpz", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      name,phone,email,address:addr,order_items:orderItems,order_total:`₹${total}`,payment_method:type
-    })
-  }).then(r=>{
-    if(r.ok){
-      alert("✅ Order placed! We will contact you soon.");
-      clearAfterOrder();
-      if(type==='Online') $('#qrWrap').style.display='block';
-    } else {alert("⚠️ Failed to send order");}
-  }).catch(()=>alert("⚠️ Failed to send order"));
-}
-
-function clearAfterOrder(){cart=[];updateCartUI();$('#checkoutArea').style.display='none';document.querySelectorAll('#checkoutArea input').forEach(i=>i.value='')}
-renderProducts();updateCartUI();
-</script>
+      const address = `${document.getElementById('street').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value} - ${document.getElementById('pincode').value}`;
+      const order={
+        name:document.getElementById('name').value,
+        phone:phone,
+        email:document.getElementById('email').value,
+        address:address,
+        cart:cart.map(i=>i.name+" - ₹"+i.price).join(", "),
+        total:document.getElementById('total').textContent,
+        payment:paymentMethod
+      };
+      try{
+        const response=await fetch("https://formspree.io/f/xvgbdqpz",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(order)
+        });
+        if(response.ok){
+          document.getElementById('responseMessage').innerHTML="<p class='success'>✅ Order placed successfully!</p>";
+          cart=[];displayCart();document.getElementById('orderForm').reset();
+        } else {
+          document.getElementById('responseMessage').innerHTML="<p class='error'>❌ Failed to send order. Try again.</p>";
+        }
+      }catch(error){
+        document.getElementById('responseMessage').innerHTML="<p class='error'>❌ Error sending order.</p>";
+      }
+    }
+  </script>
 </body>
 </html>
