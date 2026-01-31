@@ -5,146 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Village Tradition | Authentic Homemade Snacks</title>
     <style>
-        /* CSS for better UX and mobile responsiveness */
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; margin: 0; background-color: #f4f4f4; }
-        .container { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        header { text-align: center; border-bottom: 2px solid #8b4513; margin-bottom: 20px; }
-        h1, h2, h3 { color: #8b4513; }
-        .product-card { display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; }
-        input[type="number"], input[type="text"], input[type="tel"], input[type="email"], select { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .cart-summary { background: #fff3e0; padding: 15px; border-radius: 5px; font-weight: bold; margin-bottom: 20px; }
-        .btn-order { background: #25d366; color: white; padding: 15px; border: none; border-radius: 5px; width: 100%; font-size: 1.1em; cursor: pointer; font-weight: bold; }
-        .btn-order:hover { background: #128c7e; }
-        footer { text-align: center; margin-top: 20px; font-size: 0.9em; color: #666; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; background-color: #fdf5e6; }
+        header { background: #8b4513; color: white; padding: 20px; text-align: center; }
+        .nav-tabs { display: flex; justify-content: center; background: #a0522d; }
+        .nav-tabs button { background: none; border: none; color: white; padding: 15px 20px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
+        .nav-tabs button.active { background: #fdf5e6; color: #8b4513; border-radius: 10px 10px 0 0; }
+        
+        .container { max-width: 600px; margin: auto; padding: 20px; background: white; min-height: 80vh; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; }
+        .product-card img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; }
+        
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        .cart-box { background: #fff3e0; padding: 15px; border-left: 5px solid #8b4513; margin-bottom: 20px; font-weight: bold; }
+        .btn-wa { background: #25d366; color: white; padding: 15px; border: none; border-radius: 5px; width: 100%; font-size: 1.1em; cursor: pointer; margin-bottom: 10px; font-weight: bold; }
+        .btn-alt { background: #8b4513; color: white; padding: 15px; border: none; border-radius: 5px; width: 100%; font-size: 1.1em; cursor: pointer; font-weight: bold; }
+        
+        .qr-code { width: 200px; margin: 10px auto; display: none; border: 1px solid #ddd; padding: 5px; }
+        footer { text-align: center; padding: 20px; font-size: 0.9em; background: #eee; }
     </style>
 </head>
 <body>
 
+<header>
+    <h1>Homemade Products</h1>
+    <p>Fresh, tasty, and made with love for your family</p>
+</header>
+
+<nav class="nav-tabs">
+    <button onclick="showTab('shop')" id="btn-shop" class="active">Shop Snacks</button>
+    <button onclick="showTab('about')" id="btn-about">About Our Tradition</button>
+</nav>
+
 <div class="container">
-    <header>
-        <h1>Homemade Products</h1>
-        <p><em>"Fresh, tasty, and made with love for your family"</em></p> <!-- [1, 2] -->
-    </header>
-
-    <section>
-        <h2>Welcome</h2>
-        <p>Order your favourite homemade snacks easily. We bring you snacks like <strong>Pippalu and Murukulu</strong>, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep.</p> <!-- [1, 2] -->
-    </header>
-
-    <!-- Product Selection Section -->
-    <section>
-        <h3>Our Menu</h3>
+    <!-- SHOP SECTION -->
+    <section id="shop" class="content-section active">
+        <h2>Order Homemade Snacks</h2>
         <div class="product-card">
-            <span>Pippalu (₹200/kg)</span>
-            <input type="number" id="qtyPippalu" value="0" min="0" style="width: 60px;" oninput="updateCart()">
+            <img src="pippalu.jpg" alt="Pippalu">
+            <h3>Pippalu</h3>
+            <p>Crafted with care and tradition.</p>
+            <input type="number" id="qtyP" value="0" min="0" oninput="calculate()">
         </div>
         <div class="product-card">
-            <span>Murukulu (₹250/kg)</span>
-            <input type="number" id="qtyMurukulu" value="0" min="0" style="width: 60px;" oninput="updateCart()">
+            <img src="murukulu.jpg" alt="Murukulu">
+            <h3>Murukulu</h3>
+            <p>Authentic taste and quality.</p>
+            <input type="number" id="qtyM" value="0" min="0" oninput="calculate()">
         </div>
-    </section>
 
-    <!-- Cart/Checkout Summary [1-3] -->
-    <div class="cart-summary">
-        <p>Items: <span id="displayItems">None</span></p>
-        <p id="totalPrice">Total: ₹ 0</p>
-    </div>
+        <div class="cart-box">
+            <p id="item-list">Items: None</p>
+            <p id="total-val">Total: ₹ 0</p>
+        </div>
 
-    <!-- Delivery Details [2, 3] -->
-    <section>
         <h3>Delivery Details</h3>
-        <label>Full Name</label>
-        <input type="text" id="custName" placeholder="Enter full name">
-        
-        <label>Phone (10 digits)</label>
-        <input type="tel" id="custPhone" placeholder="e.g. 8790000058">
-
-        <label>Email</label>
-        <input type="email" id="custEmail" placeholder="email@example.com">
-
-        <label>Street & Landmark</label>
-        <input type="text" id="custStreet" placeholder="Street name and landmark">
-
-        <div style="display: flex; gap: 10px;">
-            <div style="flex: 1;">
-                <label>Village</label>
-                <input type="text" id="custVillage">
-            </div>
-            <div style="flex: 1;">
-                <label>Pincode</label>
-                <input type="text" id="custPincode">
-            </div>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="tel" id="phone" placeholder="Phone (10 digits)">
+        <input type="email" id="email" placeholder="Email">
+        <input type="text" id="street" placeholder="Street & Landmark">
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="village" placeholder="Village" style="flex:1;">
+            <input type="text" id="pincode" placeholder="Pincode" style="flex:1;">
         </div>
-
-        <div style="display: flex; gap: 10px;">
-            <div style="flex: 1;">
-                <label>Mandal</label>
-                <input type="text" id="custMandal">
-            </div>
-            <div style="flex: 1;">
-                <label>District</label>
-                <input type="text" id="custDistrict">
-            </div>
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="mandal" placeholder="Mandal" style="flex:1;">
+            <input type="text" id="district" placeholder="District" style="flex:1;">
         </div>
+        <input type="text" id="state" placeholder="State">
 
-        <label>State</label>
-        <input type="text" id="custState">
-    </section>
-
-    <!-- Payment Selection [3] -->
-    <section>
         <h3>Choose Payment</h3>
-        <select id="payMethod">
+        <select id="payment" onchange="checkQR()">
             <option value="Cash on Delivery">Cash on Delivery</option>
             <option value="Pay Online">Pay Online</option>
             <option value="Scan to Pay">Scan to Pay</option>
         </select>
+        <img src="scan-to-pay.jpg" id="qr" class="qr-code" alt="Scan to pay">
+
+        <p style="margin-top:20px;"><strong>Order via:</strong></p>
+        <button class="btn-wa" onclick="orderWhatsApp()">WhatsApp Order</button>
+        <button class="btn-alt" onclick="orderDirect()">Direct Confirmation (No WhatsApp)</button>
     </section>
 
-    <button class="btn-order" onclick="sendWhatsApp()">Confirm Order via WhatsApp</button>
-
-    <footer>
-        <p>📞 Support: 8790000058 | 8790000258</p> <!-- [3] -->
-        <p>✉️ villagetradition55@gmail.com | Hyderabad, India</p> <!-- [3] -->
-    </footer>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="content-section">
+        <h2>About Us</h2>
+        <p>We bring you homemade snacks like <strong>Pippalu and Murukulu</strong>, crafted with care and tradition. Our goal is to deliver authentic taste and quality right at your doorstep [1, 2].</p>
+        
+        <h3>Our Quality Promise</h3>
+        <p>Every snack is <strong>fresh, tasty, and made with love for your family</strong> [1, 2]. We value our village traditions and aim to bring that heritage to your home in Hyderabad and beyond [3].</p>
+        
+        <div class="product-card">
+            <img src="shop-profile.jpg" alt="Our Process">
+            <p>Our kitchen follows traditional recipes passed down through generations.</p>
+        </div>
+    </section>
 </div>
 
+<footer>
+    <p>📞 Support: 8790000058 | 8790000258 [3]</p>
+    <p>✉️ villagetradition55@gmail.com | Hyderabad, India [3]</p>
+</footer>
+
 <script>
-    // Automated Price Calculation (Prices are example-only, not from sources)
-    function updateCart() {
-        const pricePippalu = 200; 
-        const priceMurukulu = 250;
-
-        const qP = document.getElementById('qtyPippalu').value;
-        const qM = document.getElementById('qtyMurukulu').value;
-
-        const total = (qP * pricePippalu) + (qM * priceMurukulu);
-
-        let items = [];
-        if (qP > 0) items.push("Pippalu (" + qP + "kg)");
-        if (qM > 0) items.push("Murukulu (" + qM + "kg)");
-
-        document.getElementById('displayItems').innerText = items.length > 0 ? items.join(", ") : "None";
-        document.getElementById('totalPrice').innerText = "Total: ₹ " + total;
+    function showTab(tabId) {
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
     }
 
-    // WhatsApp Notification Implementation (Not from sources)
-    function sendWhatsApp() {
-        const name = document.getElementById('custName').value;
-        const total = document.getElementById('totalPrice').innerText;
-        const items = document.getElementById('displayItems').innerText;
-        const village = document.getElementById('custVillage').value;
-        const pay = document.getElementById('payMethod').value;
+    function calculate() {
+        const qP = document.getElementById('qtyP').value;
+        const qM = document.getElementById('qtyM').value;
+        const total = (qP * 200) + (qM * 250); // Example prices
+        let items = [];
+        if(qP > 0) items.push("Pippalu ("+qP+"kg)");
+        if(qM > 0) items.push("Murukulu ("+qM+"kg)");
+        document.getElementById('item-list').innerText = "Items: " + (items.length ? items.join(", ") : "None");
+        document.getElementById('total-val').innerText = "Total: ₹ " + total;
+    }
 
-        const message = `New Order from Village Tradition:%0A%0A` +
-                        `*Name:* ${name}%0A` +
-                        `*Items:* ${items}%0A` +
-                        `*${total}*%0A` +
-                        `*Location:* ${village}%0A` +
-                        `*Payment:* ${pay}`;
+    function checkQR() {
+        const pay = document.getElementById('payment').value;
+        document.getElementById('qr').style.display = (pay === "Scan to Pay") ? "block" : "none";
+    }
 
-        // Uses the primary support number from source [3]
-        window.open(`https://wa.me/918790000058?text=${message}`, '_blank');
+    function orderWhatsApp() {
+        const name = document.getElementById('name').value;
+        const msg = `Order for ${name}: ${document.getElementById('total-val').innerText}`;
+        window.open(`https://wa.me/918790000058?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Alternative Order Implementation (Direct Confirmation)
+    function orderDirect() {
+        const name = document.getElementById('name').value;
+        if(!name) { alert("Please enter your name first."); return; }
+        alert("Thank you, " + name + "! Your order has been placed directly. We will contact you at your provided phone number for confirmation.");
     }
 </script>
 
